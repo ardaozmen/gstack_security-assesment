@@ -1,6 +1,4 @@
-![SecOps Pipeline Architecture](./assets/SecOps Pipeline Architecture.svg)
-
-# SecOps Pipeline
+# Security Assesment Pipeline
 
 Kurumsal guvenlik degerlendirmelerini tek bir standartta yurutmek icin tasarlanmis,
 moduler ve machine-readable SecOps framework.
