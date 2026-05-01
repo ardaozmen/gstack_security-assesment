@@ -1,0 +1,32 @@
+version: "1.0"
+kind: SkillSpec
+description: "Class-based generic contract for all sec-* skills"
+required_fields:
+  - skill_id
+  - command
+  - class_name
+  - version
+  - role
+  - purpose
+  - inputs
+  - outputs
+  - dependencies
+  - execution
+  - quality_gate
+  - taste_decisions
+  - failure_policy
+field_definitions:
+  skill_id: "Unique stable id, e.g. sec-scope"
+  command: "Command trigger, e.g. /sec-scope"
+  class_name: "Logical class abstraction, e.g. ScopeSkill"
+  version: "Semver string"
+  role: "Role contract from roles/role-catalog.md"
+  purpose: "High-level objective"
+  inputs: "Required and optional input artifacts"
+  outputs: "Produced artifacts"
+  dependencies: "Upstream step or file dependencies"
+  execution: "Step-by-step execution behavior"
+  quality_gate: "Required checks before PASS"
+  taste_decisions: "Human-in-the-loop decision points"
+  failure_policy: "Behavior on FAIL/WARNING"
+
