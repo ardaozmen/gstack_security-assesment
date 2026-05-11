@@ -23,9 +23,10 @@ Bu dosya tum gate kurallarini tek yerde toplar.
 - Output: `IGRC_FINDINGS.md`, `RACI_MATRIX.md`
 - PASS icin: control owner ve gap remediation zorunlu
 
-## Gate-RISK — `/sec-risk-report`
-- Output: `RISK_REPORT.md`, `RISK_REGISTER.csv`
-- PASS icin: risk skorlama, aksiyon listesi, security posture zorunlu
+## Gate-REQ — `/sec-project-requirements`
+- Output: `PROJECT_REQUIREMENTS.md`
+- PASS icin: her bulgu için gereksinim, P0 listesi, RED/AMBER/GREEN posture zorunlu
+- Coverage gap'ler dokümante edilmis olmali
 
 ## Gate-SIGNOFF — `/sec-signoff`
 - Output: `SIGNOFF_PACKAGE.md`

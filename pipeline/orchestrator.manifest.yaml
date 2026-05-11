@@ -19,21 +19,21 @@ step_catalog:
   1:
     id: "sec-scope"
     command: "/sec-scope"
-    spec: "../skills/specs/sec-scope.spec.md"
+    spec: "../skills/sec-scope/SKILL.md"
     outputs: ["SCOPE.md"]
     gate: "Gate-SCOPE"
     depends_on: []
   2:
     id: "sec-threat-model"
     command: "/sec-threat-model"
-    spec: "../skills/specs/sec-threat-model.spec.md"
+    spec: "../skills/sec-threat-model/SKILL.md"
     outputs: ["THREAT_MODEL.md"]
     gate: "Gate-THREAT"
     depends_on: [1]
   3:
     id: "sec-owasp"
     command: "/sec-owasp"
-    spec: "../skills/specs/sec-owasp.spec.md"
+    spec: "../skills/sec-owasp/SKILL.md"
     outputs: ["OWASP_FINDINGS.md"]
     gate: "Gate-OWASP"
     depends_on: [1, 2]
@@ -41,7 +41,7 @@ step_catalog:
   4:
     id: "sec-regulatory"
     command: "/sec-regulatory"
-    spec: "../skills/specs/sec-regulatory.spec.md"
+    spec: "../skills/sec-regulatory/SKILL.md"
     outputs: ["REGULATORY_FINDINGS.md"]
     gate: "Gate-REG"
     depends_on: [1]
@@ -49,22 +49,22 @@ step_catalog:
   5:
     id: "sec-igrc"
     command: "/sec-igrc"
-    spec: "../skills/specs/sec-igrc.spec.md"
+    spec: "../skills/sec-igrc/SKILL.md"
     outputs: ["IGRC_FINDINGS.md", "RACI_MATRIX.md"]
     gate: "Gate-IGRC"
     depends_on: [1, 4]
     parallel_group: "assessment"
   6:
-    id: "sec-risk-report"
-    command: "/sec-risk-report"
-    spec: "../skills/specs/sec-risk-report.spec.md"
-    outputs: ["RISK_REPORT.md", "RISK_REGISTER.csv"]
-    gate: "Gate-RISK"
-    depends_on: [1]
+    id: "sec-project-requirements"
+    command: "/sec-project-requirements"
+    spec: "../skills/sec-project-requirements/SKILL.md"
+    outputs: ["PROJECT_REQUIREMENTS.md"]
+    gate: "Gate-REQ"
+    depends_on: [2, 3, 4, 5]  # full-mode deps; orchestrator resolves against active steps
   7:
     id: "sec-signoff"
     command: "/sec-signoff"
-    spec: "../skills/specs/sec-signoff.spec.md"
+    spec: "../skills/sec-signoff/SKILL.md"
     outputs: ["SIGNOFF_PACKAGE.md"]
     gate: "Gate-SIGNOFF"
     depends_on: [6]
@@ -74,4 +74,3 @@ global_policies:
   block_on_gate_fail: true
   block_on_unresolved_taste_decision: true
   human_final_decision_required: true
-

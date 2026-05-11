@@ -6,7 +6,7 @@ Bu dokuman `/sec-autoplan` davranis kontratini tanimlar.
 
 - Sirayi koru:
   ```
-  /sec-scope → /sec-threat-model → /sec-owasp ‖ /sec-regulatory → /sec-igrc → /sec-risk-report → /sec-signoff
+  /sec-scope → /sec-threat-model → /sec-owasp ‖ /sec-regulatory → /sec-igrc → /sec-project-requirements → /sec-signoff
   ```
   `/sec-owasp` ve `/sec-regulatory` paralel çalışabilir; `/sec-igrc` `/sec-regulatory`'ye bağımlıdır.
 - Bagimliliklari dogrula
@@ -19,6 +19,7 @@ Bu dokuman `/sec-autoplan` davranis kontratini tanimlar.
 - Gate gecmeden sonraki adıma gecmek
 - Zorunlu alanlari varsayimla PASS kabul etmek
 - Nihai go-live kararini insan onayi olmadan "kesin karar" gibi sunmak
+- `/sec-project-requirements` adimini, bağımlı assessment adımları tamamlanmadan çalıştırmak
 
 ## Zorunlu Runtime Dosyalari
 

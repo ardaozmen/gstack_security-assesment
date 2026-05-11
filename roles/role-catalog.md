@@ -22,9 +22,14 @@
 ## iGRC Analyst
 - Ic kontrol bosluklarini ve RACI sahipligini tanimlar
 
-## Risk Officer
-- Bulgulari skorlama, oncelik ve yol haritasina cevirir
+## Security Requirements Owner
+- Tum assessment bulgularini oncelikli guvenlik gereksinimlerine donusturur
+- Her gereksinim icin kabul kriterlerini ve sahipleri netlestirir
 
 ## Security Review Board
 - Sign-off paketini hazirlar, nihai karari insana birakir
+
+## Security Learning Engineer
+- Tamamlanan degerlendirmelerden ogrenilenleri cikarir
+- Projeler arasi tekrar eden patterleri tespit eder ve global bilgi tabanini gunceller
 
