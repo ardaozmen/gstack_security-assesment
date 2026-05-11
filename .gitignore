@@ -1,0 +1,28 @@
+# Streamlit config
+.streamlit/
+
+# Knowledge base (master source, not for distribution)
+resources/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.env
+.env.*
+
+# Generated pipeline output files (uncomment to exclude from tracking)
+# SCOPE.md
+# THREAT_MODEL.md
+# OWASP_FINDINGS.md
+# REGULATORY_FINDINGS.md
+# IGRC_FINDINGS.md
+# RACI_MATRIX.md
+# RISK_REPORT.md
+# RISK_REGISTER.csv
+# SIGNOFF_PACKAGE.md
+# AUTO_PLAN_STATUS.md
+# PIPELINE_CONTEXT.md

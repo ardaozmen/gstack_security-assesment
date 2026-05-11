@@ -4,7 +4,11 @@ Bu dokuman `/sec-autoplan` davranis kontratini tanimlar.
 
 ## Sorumluluklar
 
-- Sirayi koru: `1 -> 2 -> {3,4,5} -> 6 -> 7`
+- Sirayi koru:
+  ```
+  /sec-scope → /sec-threat-model → /sec-owasp ‖ /sec-regulatory → /sec-igrc → /sec-risk-report → /sec-signoff
+  ```
+  `/sec-owasp` ve `/sec-regulatory` paralel çalışabilir; `/sec-igrc` `/sec-regulatory`'ye bağımlıdır.
 - Bagimliliklari dogrula
 - Quality gate calistir
 - Taste decision gereken yerde dur ve kullaniciya sor
@@ -26,4 +30,3 @@ Bu dokuman `/sec-autoplan` davranis kontratini tanimlar.
 - `SUCCESS`: tum hedef adimlar PASS
 - `PARTIAL`: en az bir WARNING var, FAIL yok
 - `FAILED`: en az bir gate FAIL
-
