@@ -1,142 +1,147 @@
 ---
 name: sec-project-requirements
-description: Tüm değerlendirme bulgularını konsolide ederek öncelikli güvenlik gereksinimlerine dönüştürür. Sonunda project-requirements.html artifact'ı oluşturur.
+description: Consolidates all assessment findings into prioritized security requirements. Produces the project-requirements.html artifact at the end.
 ---
 
-# /sec-project-requirements — Güvenlik Gereksinimleri
+# /sec-project-requirements — Security Requirements
 
-## Amaç
+## Purpose
 
-Conversation'daki tüm analiz çıktılarını (scope, threat model, OWASP, regulatory, igrc) tek bir öncelikli gereksinimler belgesine dönüştür.
-Bu bir değerlendirme belgesidir — karar mekanizması değil.
+Transform all analysis outputs from the conversation (scope, threat model, OWASP, regulatory, igrc) into a single prioritized requirements document.
+This is an assessment document — not a decision-making mechanism.
 
-## Çalıştırma Talimatları
+## Language Rule
 
-### Adım 1 — Tüm Bulguları Topla
+Use the same language the user is writing in for all output.
 
-Conversation'daki şu analizlerden bulguları çek:
-- /sec-threat-model → tehdit ve saldırı senaryoları
-- /sec-owasp → uygulama güvenlik açıkları
-- /sec-regulatory → mevzuat uyumsuzlukları
-- /sec-igrc → kontrol ve sahiplik boşlukları
+## Execution Instructions
 
-Birleşik bulgu listesi oluştur. Aynı kök nedene işaret eden bulguları birleştir.
+### Step 1 — Collect All Findings
 
-### Adım 2 — Risk Skorlama
+Pull findings from the following analyses in the conversation:
+- /sec-threat-model → threats and attack scenarios
+- /sec-owasp → application security vulnerabilities
+- /sec-regulatory → compliance gaps
+- /sec-igrc → control and ownership gaps
 
-Her bulgu için: **Risk = Olasılık (1-5) × Etki (1-5)**
+Build a unified finding list. Merge findings that point to the same root cause and cite both source IDs.
 
-| Skor | Seviye |
+### Step 2 — Risk Scoring
+
+For every finding: **Risk = Likelihood (1–5) × Impact (1–5)**
+
+| Score | Level |
 |---|---|
-| 20-25 | KRİTİK |
-| 12-19 | YÜKSEK |
-| 6-11 | ORTA |
-| 1-5 | DÜŞÜK |
+| 20–25 | CRITICAL |
+| 12–19 | HIGH |
+| 6–11 | MEDIUM |
+| 1–5 | LOW |
 
-### Adım 3 — Gereksinimlere Dönüştür
+### Step 3 — Translate to Requirements
 
-Her bulgu için karşılık gelen bir güvenlik gereksinimi yaz:
+For every finding, write a corresponding security requirement:
 
 ```
 SEC-REQ-001
-Başlık     : [ne yapılmalı]
-Kaynak     : [OWASP-A01-001, THREAT-003]
-Gereksinim : [ne uygulanmalı — açık ve ölçülebilir]
-Kabul Krit.:
-  - [kriter 1]
-  - [kriter 2]
-Risk Skoru : [N] — [KRİTİK/YÜKSEK/ORTA/DÜŞÜK]
-Öncelik    : [1-KRİTİK / 2-YÜKSEK / 3-ORTA]
-Sahip      : [ekip veya TBD]
+Title       : [what needs to be done]
+Source      : [OWASP-A01-001, THREAT-003]
+Requirement : [what must be implemented — clear and measurable]
+Acceptance  :
+  - [criterion 1]
+  - [criterion 2]
+Risk Score  : [N] — [CRITICAL/HIGH/MEDIUM/LOW]
+Priority    : [1-CRITICAL / 2-HIGH / 3-MEDIUM]
+Owner       : [team or TBD]
 ```
 
-### Adım 4 — Güvenlik Postür Değerlendirmesi
+### Step 4 — Security Posture
 
-| Postür | Koşul |
+| Posture | Condition |
 |---|---|
-| KIRMIZI | KRİTİK seviyede çözümsüz bulgu var |
-| SARI | YÜKSEK bulgular var, KRİTİK yok |
-| YEŞİL | Yalnızca ORTA ve DÜŞÜK bulgular var |
+| RED | Any CRITICAL finding unresolved |
+| AMBER | HIGH findings present, no CRITICAL |
+| GREEN | Only MEDIUM and LOW findings |
 
-2-3 cümle gerekçe yaz.
+Write a 2–3 sentence rationale.
 
-### Adım 5 — Yönetici Özeti
+### Step 5 — Executive Summary
 
-Teknik olmayan okuyucu için:
-1. Projenin ne yaptığı (2 cümle)
-2. Hangi değerlendirmeler yapıldı
-3. En önemli 3 güvenlik gereksinimi (sade dille)
-4. Genel güvenlik postürü
+For a non-technical reader:
+1. What the project does (2 sentences)
+2. Which assessments were run
+3. The 3 most important security requirements (plain language)
+4. Overall security posture
 
-### Adım 6 — Conversation'a Yaz
-
----
-
-## /sec-project-requirements Analizi
-
-### Yönetici Özeti
-
-**Güvenlik Postürü: KIRMIZI / SARI / YEŞİL**
-
-[2-3 cümle gerekçe]
-
-**Bu Proje Ne Yapıyor?**
-[2 cümle]
-
-**En Önemli 3 Gereksinim**
-1. [SEC-REQ-xxx] — [sade açıklama]
-2. [SEC-REQ-xxx] — [sade açıklama]
-3. [SEC-REQ-xxx] — [sade açıklama]
+### Step 6 — Write to Conversation
 
 ---
 
-### Kritik Gereksinimler (Risk: 20-25)
+## /sec-project-requirements Analysis
 
-[Her gereksinim için yukarıdaki format]
+### Executive Summary
+
+**Security Posture: RED / AMBER / GREEN**
+
+[2–3 sentence rationale]
+
+**What Does This Project Do?**
+[2 sentences]
+
+**Top 3 Requirements**
+1. [SEC-REQ-xxx] — [plain description]
+2. [SEC-REQ-xxx] — [plain description]
+3. [SEC-REQ-xxx] — [plain description]
 
 ---
 
-### Yüksek Gereksinimler (Risk: 12-19)
+### Critical Requirements (Risk: 20–25)
 
-[Her gereksinim için yukarıdaki format]
-
----
-
-### Orta Gereksinimler (Risk: 6-11)
-
-[Her gereksinim için yukarıdaki format]
+[Each requirement in the format above]
 
 ---
 
-### Gereksinimler Özet Tablosu
+### High Requirements (Risk: 12–19)
 
-| ID | Başlık | Kaynak | Risk Skoru | Seviye | Sahip |
+[Each requirement in the format above]
+
+---
+
+### Medium Requirements (Risk: 6–11)
+
+[Each requirement in abbreviated format]
+
+---
+
+### Requirements Summary Table
+
+| ID | Title | Source | Risk Score | Level | Owner |
 |---|---|---|---|---|---|
 
-### Değerlendirme Kapsamı
-| Skill | Durum |
+### Assessment Coverage
+| Skill | Status |
 |---|---|
-| /sec-threat-model | yüklendi / eksik |
-| /sec-owasp | yüklendi / eksik |
-| /sec-regulatory | yüklendi / eksik |
-| /sec-igrc | yüklendi / eksik |
+| /sec-threat-model | loaded / missing |
+| /sec-owasp | loaded / missing |
+| /sec-regulatory | loaded / missing |
+| /sec-igrc | loaded / missing |
 
 ---
 
-### Adım 7 — project-requirements.html Artifact
+### Step 7 — Generate project-requirements.html Artifact
 
-Analiz tamamlandıktan sonra `project-requirements.html` adında bir HTML artifact oluştur.
+After the analysis is written, create an HTML artifact named `project-requirements.html`.
 
-`skills-web/word-output-standard.md` dosyasındaki `## project-requirements.html` şablonunu ve paylaşılan CSS'i kullan.
-Tüm placeholder'ları gerçek analiz içeriğiyle doldur.
-Template comment'lerini kaldır.
-Satır class'larını (`critical`, `high`, `medium`) gerçek risk seviyelerine göre uygula.
-Postür class'ını (`posture-red`, `posture-amber`, `posture-green`) sonuca göre uygula.
+Use the `## project-requirements.html` template and shared CSS from `word-output-standard`.
+Replace all placeholders with actual content from the analysis.
+Apply row classes (`critical`, `high`, `medium`) based on actual risk levels.
+Apply the posture class (`posture-red`, `posture-amber`, `posture-green`) based on the result.
+Remove all template comments.
+Artifact type: `text/html`
 
 ## Hard Rules
 
-- Dosya okuma veya yazma yapma — tüm girdi conversation'dan gelir.
-- Her bulgu en az bir gereksinim üretmeli.
-- Sahip bilinmiyorsa "TBD" yaz ve işaretle.
-- GO / NO-GO / BLOCKER gibi karar dili kullanma — bu bir değerlendirme belgesidir.
-- Kapsam dışı değerlendirmeleri açıkça belirt.
+- Do not read or write any files — all input comes from the conversation.
+- Every finding must produce at least one requirement.
+- If the owner is unknown, write "TBD" and flag it.
+- Do not use decision language (GO / NO-GO / BLOCKER) — this is an assessment document.
+- Explicitly document any assessment domain that was not covered.

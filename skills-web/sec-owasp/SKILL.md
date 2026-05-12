@@ -1,27 +1,31 @@
 ---
 name: sec-owasp
-description: OWASP Top 10 çerçevesiyle uygulama güvenlik bulgularını üretir. Her kategori için exploit senaryosu ve teknik gereksinimler yazar.
+description: Produces application security findings using the OWASP Top 10 framework. Writes exploit scenarios and technical recommendations for each applicable category.
 ---
 
-# /sec-owasp — OWASP Top 10 Analizi
+# /sec-owasp — OWASP Top 10 Analysis
 
-## Amaç
+## Purpose
 
-Uygulamanın OWASP Top 10 açıklarına karşı durumunu değerlendir.
-Conversation'daki /sec-scope ve /sec-threat-model analizlerini baz al.
+Assess the application against the OWASP Top 10 vulnerabilities.
+Base the analysis on the /sec-scope and /sec-threat-model outputs in the conversation.
 
-## Çalıştırma Talimatları
+## Language Rule
 
-### Adım 1 — Her OWASP Kategorisini Değerlendir
+Use the same language the user is writing in for all output.
 
-Aşağıdaki 10 kategoriyi sırayla değerlendir. Her biri için:
-- Uygulanabilir mi? (projeye özgü bağlamda)
-- Mevcut veya potansiyel bulgu var mı?
-- Risk skoru: Olasılık (1-5) × Etki (1-5)
-- Exploit senaryosu (kısa, somut)
-- Teknik öneri
+## Execution Instructions
 
-| ID | Kategori |
+### Step 1 — Evaluate Each OWASP Category
+
+Evaluate all 10 categories in order. For each:
+- Is it applicable? (in the context of this project)
+- Is there an existing or potential finding?
+- Risk score: Likelihood (1–5) × Impact (1–5)
+- Exploit scenario (short, concrete)
+- Technical recommendation
+
+| ID | Category |
 |---|---|
 | A01 | Broken Access Control |
 | A02 | Cryptographic Failures |
@@ -34,34 +38,33 @@ Aşağıdaki 10 kategoriyi sırayla değerlendir. Her biri için:
 | A09 | Security Logging and Monitoring Failures |
 | A10 | Server-Side Request Forgery (SSRF) |
 
-### Adım 2 — Analizi Yaz
+### Step 2 — Write Analysis to Conversation
 
 ---
 
-## /sec-owasp Analizi
+## /sec-owasp Analysis
 
-### Bulgular
+### Findings
 
-| ID | Kategori | Seviye | Risk Skoru | Exploit Senaryosu | Öneri |
+| ID | Category | Level | Risk Score | Exploit Scenario | Recommendation |
 |---|---|---|---|---|---|
-| OWASP-A01-001 | Broken Access Control | KRİTİK | 20 | [senaryo] | [öneri] |
-| ... | | | | | |
+| OWASP-A01-001 | Broken Access Control | CRITICAL | 20 | [scenario] | [recommendation] |
 
-### Kapsam Dışı
-[Projeye uygulanamayan kategoriler ve gerekçesi]
+### Out of Scope
+[Categories not applicable to this project and the reason]
 
-### Özet
-| Seviye | Adet |
+### Summary
+| Level | Count |
 |---|---|
-| KRİTİK | N |
-| YÜKSEK | N |
-| ORTA | N |
-| DÜŞÜK | N |
+| CRITICAL | N |
+| HIGH | N |
+| MEDIUM | N |
+| LOW | N |
 
 ---
 
 ## Hard Rules
 
-- Her 10 kategoriyi değerlendir — uygulanamıyorsa "kapsam dışı — [gerekçe]" yaz.
-- Dosya okuma veya yazma yapma.
-- Exploit senaryosu olmayan bulgu yazma.
+- Evaluate all 10 categories — write "out of scope — [reason]" if not applicable.
+- Do not read or write any files.
+- Do not write a finding without a concrete exploit scenario.

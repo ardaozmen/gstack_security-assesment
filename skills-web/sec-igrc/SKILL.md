@@ -1,81 +1,85 @@
 ---
 name: sec-igrc
-description: İç kontrol boşluklarını ve RACI sahipliğini tanımlar. Mevzuat bulgularını iç kontrol çerçevesiyle ilişkilendirir.
+description: Identifies internal control gaps and RACI ownership. Maps regulatory findings to the internal control framework.
 ---
 
-# /sec-igrc — İç Kontrol ve RACI Analizi
+# /sec-igrc — Internal Control & RACI Analysis
 
-## Amaç
+## Purpose
 
-Güvenlik kontrollerindeki sahiplik boşluklarını ve iç kontrol eksiklerini belirle.
-Conversation'daki /sec-scope ve /sec-regulatory analizlerini baz al.
+Identify ownership gaps and missing internal controls for security.
+Base the analysis on the /sec-scope and /sec-regulatory outputs in the conversation.
 
-## Çalıştırma Talimatları
+## Language Rule
 
-### Adım 1 — Kontrol Alanlarını Değerlendir
+Use the same language the user is writing in for all output.
 
-Aşağıdaki 8 kontrol alanı için değerlendirme yap:
+## Execution Instructions
 
-| Alan | Değerlendirilecek Konular |
+### Step 1 — Evaluate Control Domains
+
+Assess the following 8 control domains:
+
+| Domain | Topics to Evaluate |
 |---|---|
-| Erişim Yönetimi | Ayrıcalıklı erişim, en az yetki prensibi, periyodik erişim gözden geçirme |
-| Değişiklik Yönetimi | CAB süreci, kod inceleme, test ortamı ayrımı |
-| Olay Yönetimi | Güvenlik olay süreci, eskalasyon yolu, iletişim planı |
-| Varlık Yönetimi | Varlık envanteri güncelliği, sınıflandırma, sahiplik |
-| Tedarikçi Yönetimi | Üçüncü taraf risk değerlendirme, sözleşme gereksinimleri |
-| Log ve İzleme | Merkezi log yönetimi, alert mekanizmaları, log saklama süresi |
-| İş Sürekliliği | DR planı, RTO/RPO hedefleri, test yapılıyor mu |
-| Güvenlik Farkındalığı | Personel eğitimi, phishing simulasyonu, politika kabul |
+| Access Management | Privileged access, least privilege principle, periodic access review |
+| Change Management | CAB process, code review, test environment separation |
+| Incident Management | Security incident process, escalation path, communication plan |
+| Asset Management | Asset inventory currency, classification, ownership |
+| Vendor Management | Third-party risk assessment, contract requirements |
+| Logging & Monitoring | Centralized log management, alerting, log retention period |
+| Business Continuity | DR plan, RTO/RPO targets, whether testing is performed |
+| Security Awareness | Staff training, phishing simulation, policy acknowledgment |
 
-### Adım 2 — RACI Matrisi Oluştur
+### Step 2 — Build RACI Matrix
 
-Her kritik kontrol için sahiplik durumunu belgele:
+For each critical control, document the ownership status:
 
-| Kontrol | Sorumlu | Onaylayan | Danışılan | Bilgilendirilen | Boşluk |
+| Control | Responsible | Accountable | Consulted | Informed | Gap |
 |---|---|---|---|---|---|
-| Erişim gözden geçirme | [ekip veya TBD] | [ekip veya TBD] | | | [sahip yoksa: SAHİPSİZ] |
+| Access review | [team or TBD] | [team or TBD] | | | [UNOWNED if no owner] |
 
-### Adım 3 — Analizi Yaz
+### Step 3 — Write Analysis to Conversation
 
 ---
 
-## /sec-igrc Analizi
+## /sec-igrc Analysis
 
-### Kontrol Değerlendirmesi
+### Control Assessment
 
-| Alan | Durum | Boşluk Açıklaması | Risk Seviyesi |
+| Domain | Status | Gap Description | Risk Level |
 |---|---|---|---|
-| Erişim Yönetimi | MEVCUT / KISMİ / EKSİK | [açıklama] | KRİTİK / YÜKSEK / ORTA / DÜŞÜK |
-| Değişiklik Yönetimi | | | |
-| Olay Yönetimi | | | |
-| Varlık Yönetimi | | | |
-| Tedarikçi Yönetimi | | | |
-| Log ve İzleme | | | |
-| İş Sürekliliği | | | |
-| Güvenlik Farkındalığı | | | |
+| Access Management | IN PLACE / PARTIAL / MISSING | [description] | CRITICAL / HIGH / MEDIUM / LOW |
+| Change Management | | | |
+| Incident Management | | | |
+| Asset Management | | | |
+| Vendor Management | | | |
+| Logging & Monitoring | | | |
+| Business Continuity | | | |
+| Security Awareness | | | |
 
-### RACI Matrisi
+### RACI Matrix
 
-| Kontrol | Sorumlu | Onaylayan | Danışılan | Bilgilendirilen | Boşluk |
+| Control | Responsible | Accountable | Consulted | Informed | Gap |
 |---|---|---|---|---|---|
 
-### Kritik Sahiplik Boşlukları
-[Sahibi olmayan kritik kontrollerin listesi]
+### Critical Ownership Gaps
+[List of critical controls with no owner]
 
-### Mevzuat Bağlantısı
-[/sec-regulatory bulgularından bu alanda düşen kontrol gereksinimleri]
+### Regulatory Mapping
+[Control requirements from /sec-regulatory findings that fall in this domain]
 
-### Özet
-| Durum | Adet |
+### Summary
+| Status | Count |
 |---|---|
-| Mevcut | N |
-| Kısmi | N |
-| Eksik | N |
+| In Place | N |
+| Partial | N |
+| Missing | N |
 
 ---
 
 ## Hard Rules
 
-- Sahipliği bilinmeyen her kontrol için "TBD" değil "SAHİPSİZ" yaz — görünür olsun.
-- Dosya okuma veya yazma yapma.
-- /sec-regulatory bulgularıyla çakışan kontrol boşluklarını mutlaka ilişkilendir.
+- For any control with unknown ownership, write "UNOWNED" — not "TBD" — to make it visible.
+- Do not read or write any files.
+- Always link control gaps to the relevant /sec-regulatory findings.

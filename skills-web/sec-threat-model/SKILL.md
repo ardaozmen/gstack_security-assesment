@@ -1,128 +1,131 @@
 ---
 name: sec-threat-model
-description: STRIDE metodolojisiyle tehdit modeli oluşturur. Bileşen-tehdit matrisi, güven sınırı ihlalleri ve saldırı ağaçlarını üretir. Sonunda threat-modeling.html artifact'ı oluşturur.
+description: Builds a STRIDE-based threat model. Produces a component-threat matrix, trust boundary violation scenarios, and attack trees. Generates the threat-modeling.html artifact at the end.
 ---
 
-# /sec-threat-model — Tehdit Modelleme
+# /sec-threat-model — Threat Modeling
 
-## Amaç
+## Purpose
 
-STRIDE çerçevesiyle her sistem bileşenine karşı tehditleri sistematik olarak belirle.
-Conversation'daki /sec-scope analizini baz al — dosya okuma.
+Systematically identify threats against every system component using STRIDE.
+Base the analysis on the /sec-scope output in the conversation — no file reading.
 
-## Çalıştırma Talimatları
+## Language Rule
 
-### Adım 1 — Bileşen-Tehdit Matrisi
+Use the same language the user is writing in for all output.
 
-Yukarıdaki /sec-scope analizindeki her varlık için STRIDE uygula:
+## Execution Instructions
 
-| Varlık Türü | S | T | R | I | D | E |
+### Step 1 — Component-Threat Matrix
+
+Apply STRIDE to each asset from the /sec-scope analysis above:
+
+| Asset Type | S | T | R | I | D | E |
 |---|---|---|---|---|---|---|
-| Dış Kaynak (External Entity) | ✓ | | ✓ | | | |
-| Servis / Process | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Veri Deposu | | ✓ | ✓ | ✓ | ✓ | |
-| Veri Akışı | | ✓ | | ✓ | ✓ | |
-| Auth Bileşeni | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| External Entity | ✓ | | ✓ | | | |
+| Service / Process | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Data Store | | ✓ | ✓ | ✓ | ✓ | |
+| Data Flow | | ✓ | | ✓ | ✓ | |
+| Auth Component | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
-Her hücre için:
-- **Spoofing**: Kimlik sahteciliği mümkün mü?
-- **Tampering**: Girdi doğrulaması var mı, yazma işlemleri korumalı mı?
-- **Repudiation**: Kritik aksiyonlar denetim izi ile loglanıyor mu?
-- **Info Disclosure**: Hata mesajları iç detay sızdırıyor mu?
-- **Denial of Service**: Rate limiting var mı, kaynak tüketimi tetiklenebilir mi?
-- **Elevation of Privilege**: Her katmanda yetkilendirme kontrol ediliyor mu?
+For each applicable cell:
+- **Spoofing**: Can identity be forged?
+- **Tampering**: Is input validated? Are write operations protected?
+- **Repudiation**: Are critical actions logged with a tamper-proof audit trail?
+- **Info Disclosure**: Do error messages leak internals? Is encryption complete?
+- **Denial of Service**: Is rate limiting present? Can resource exhaustion be triggered?
+- **Elevation of Privilege**: Is authorization enforced at every layer?
 
-### Adım 2 — Veri Akışı Tehdit Analizi
+### Step 2 — Data Flow Threat Analysis
 
-/sec-scope'daki her veri akışı için:
-1. TLS 1.2+ ile şifreli mi?
-2. MITM saldırısı mümkün mü?
-3. İstek tekrar oynatılabilir mi?
-4. Hangi katmanda doğrulanıyor?
-5. Bu akış ele geçirilirse etki alanı ne kadar geniş?
+For each data flow in the /sec-scope analysis:
+1. Is transport encrypted (TLS 1.2+)?
+2. Is a MITM attack possible?
+3. Can a request be replayed?
+4. At which layer is data validated?
+5. What is the blast radius if this flow is compromised?
 
-### Adım 3 — Güven Sınırı Analizi
+### Step 3 — Trust Boundary Analysis
 
-Her güven sınırı geçişi için:
-1. Kim veya ne geçebilir?
-2. Auth mekanizması nedir?
-3. Yetkilendirme kararı nerede alınıyor?
-4. Her geçiş loglanıyor mu?
-5. Sınır bypass edilirse ne olur?
+For each trust boundary crossing:
+1. Who or what is allowed to cross it?
+2. What is the authentication mechanism?
+3. Where is the authorization decision made?
+4. Is every crossing logged?
+5. What happens if the boundary is bypassed?
 
-### Adım 4 — Risk Skorlama
+### Step 4 — Risk Scoring
 
-Her tehdit için: **Risk = Olasılık (1-5) × Etki (1-5)**
+For every threat: **Risk = Likelihood (1–5) × Impact (1–5)**
 
-| Skor | Seviye |
+| Score | Level |
 |---|---|
-| 20-25 | KRİTİK |
-| 12-19 | YÜKSEK |
-| 6-11 | ORTA |
-| 1-5 | DÜŞÜK |
+| 20–25 | CRITICAL |
+| 12–19 | HIGH |
+| 6–11 | MEDIUM |
+| 1–5 | LOW |
 
-### Adım 5 — Saldırı Ağaçları
+### Step 5 — Attack Trees
 
-Risk skoru ≥ 12 olan her tehdit için saldırı ağacı oluştur.
+Build an attack tree for every threat with risk score ≥ 12.
 
 ```
-Hedef: [yetkisiz erişim]
-├── Yol A: [kimlik doğrulama bypass]
-│   ├── A1: [SQL enjeksiyon] — zorluk: orta
-│   └── A2: [kaba kuvvet]     — zorluk: düşük
-└── Yol B: [meşru işlevsellik kötüye kullanımı]
-    └── B1: [IDOR]             — zorluk: düşük
+Goal: [unauthorized access to X]
+├── Path A: [authentication bypass]
+│   ├── A1: [SQL injection] — difficulty: medium
+│   └── A2: [brute force]   — difficulty: low
+└── Path B: [abuse of legitimate functionality]
+    └── B1: [IDOR]          — difficulty: low
 ```
 
-### Adım 6 — Analizi Yaz
-
-Aşağıdaki yapıda conversation'a yaz:
+### Step 6 — Write Analysis to Conversation
 
 ---
 
-## /sec-threat-model Analizi
+## /sec-threat-model Analysis
 
-### Bileşen Tehdit Matrisi
-| Varlık | Spoofing | Tampering | Repudiation | Info Disclosure | DoS | EoP |
+### Component Threat Matrix
+| Asset | Spoofing | Tampering | Repudiation | Info Disclosure | DoS | EoP |
 |---|---|---|---|---|---|---|
-| [varlık] | [bulgu veya YOK] | ... | | | | |
+| [asset] | [finding or N/A] | ... | | | | |
 
-### Veri Akışı Tehditleri
-| Akış | Tehdit | Kategori | Seviye | Açıklama |
+### Data Flow Threats
+| Flow | Threat | Category | Level | Description |
 |---|---|---|---|---|
 
-### Güven Sınırı İhlalleri
-**[Sınır Adı]**
-- Senaryo: [açıklama]
-- Seviye: KRİTİK / YÜKSEK / ORTA / DÜŞÜK
-- Saldırı yolu: [özet]
+### Trust Boundary Violations
+**[Boundary Name]**
+- Scenario: [description]
+- Level: CRITICAL / HIGH / MEDIUM / LOW
+- Attack path: [brief]
 
-### Saldırı Ağaçları
-[Her ağaç]
+### Attack Trees
+[Each tree]
 
-### Tehdit Özeti
-| Seviye | Adet |
+### Threat Summary
+| Level | Count |
 |---|---|
-| KRİTİK | N |
-| YÜKSEK | N |
-| ORTA | N |
-| DÜŞÜK | N |
-| **Toplam** | **N** |
+| CRITICAL | N |
+| HIGH | N |
+| MEDIUM | N |
+| LOW | N |
+| **Total** | **N** |
 
 ---
 
-### Adım 7 — threat-modeling.html Artifact
+### Step 7 — Generate threat-modeling.html Artifact
 
-Analiz tamamlandıktan sonra `threat-modeling.html` adında bir HTML artifact oluştur.
+After the analysis is written, create an HTML artifact named `threat-modeling.html`.
 
-`skills-web/word-output-standard.md` dosyasındaki `## threat-modeling.html` şablonunu ve paylaşılan CSS'i kullan.
-Tüm placeholder'ları gerçek analiz içeriğiyle doldur.
-Template comment'lerini kaldır.
-Satır class'larını (`critical`, `high`, `medium`, `low`) gerçek tehdit seviyelerine göre uygula.
+Use the `## threat-modeling.html` template and shared CSS from `word-output-standard`.
+Replace all placeholders with actual content from the analysis.
+Apply row classes (`critical`, `high`, `medium`, `low`) based on actual threat levels.
+Remove all template comments.
+Artifact type: `text/html`
 
 ## Hard Rules
 
-- Dosya okuma veya yazma yapma — tüm girdi conversation'dan gelir.
-- Hiçbir STRIDE kategorisini atlama — geçerli değilse "YOK — [gerekçe]" yaz.
-- Saldırı ağacı olmadan analizi bitirme.
-- KRİTİK her tehdit için saldırı ağacı zorunlu.
+- Do not read or write any files — all input comes from the conversation.
+- Do not skip any STRIDE category — write "N/A — [reason]" if truly not applicable.
+- Do not finish without at least one attack tree.
+- Every CRITICAL threat requires an attack tree.

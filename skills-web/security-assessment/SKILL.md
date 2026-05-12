@@ -1,25 +1,29 @@
 ---
 name: security-assessment
-description: Tam güvenlik değerlendirme pipeline'ını başlatır. Proje bilgisini alır, tüm analiz adımlarını sırayla çalıştırır ve sonunda iki HTML doküman üretir.
+description: Starts the full security assessment pipeline. Collects project information, runs all analysis steps in sequence, and produces two HTML output documents.
 ---
 
 # /security-assessment — Pipeline Orchestrator
 
-## Amaç
+## Purpose
 
-Kullanıcının verdiği proje bilgisini alarak güvenlik değerlendirme pipeline'ını uçtan uca çalıştır.
-Tüm adımları sırayla çalıştır, analiz sonuçlarını conversation'da tut, sonunda iki HTML artifact üret.
+Take the project information provided by the user and run the security assessment pipeline end-to-end.
+Execute all steps in order, keep analysis results in conversation, and produce two HTML artifacts at the end.
 
-**Kullanıcıdan yalnızca başta bilgi al. Sonrasında pipeline otomatik ilerler.**
+**Ask the user only once at the start. The pipeline runs automatically after that.**
 
-## Kullanım
+## Language Rule
+
+Detect the language the user writes in and use that language for all responses, analysis output, and document content throughout the entire pipeline.
+
+## Usage
 
 ```
 /security-assessment
-[proje adı ve kısa açıklama]
+[project name and short description]
 ```
 
-## Pipeline Akışı
+## Pipeline Flow
 
 ```
 /sec-scope
@@ -37,90 +41,91 @@ Tüm adımları sırayla çalıştır, analiz sonuçlarını conversation'da tut
 /sec-project-requirements ──→ project-requirements.html
 ```
 
-## Çalıştırma Talimatları
+## Execution Instructions
 
-### Adım 0 — Proje Bilgisi
+### Step 0 — Project Information
 
-Kullanıcı proje bilgisini vermemişse tek mesajda sor:
-1. Proje adı ve tek cümle açıklama
-2. Yeni geliştirme mi, mevcut sistem mi, üçüncü taraf ürün mü?
-3. Düzenlenmiş sektör? (finans/BDDK, sermaye piyasası/SPK, diğer)
+If the user has not provided project information, ask in a single message:
+1. Project name and one-sentence description
+2. New development, existing system, or third-party product?
+3. Regulated sector? (finance/banking, capital markets, other)
 
-Bilgi geldikten sonra pipeline'ı başlat. Bir daha soru sorma.
-
----
-
-### Adım 1 — /sec-scope
-
-`/sec-scope` skill talimatlarını uygula.
-- 9 soruluk intake'i tek mesajda sor
-- Tüm cevaplar netleşince kapsam analizini conversation'a yaz
-- Bir sonraki adıma geç
+Once the information is received, start the pipeline. Do not ask for confirmation again.
 
 ---
 
-### Adım 2 — /sec-threat-model
+### Step 1 — /sec-scope
 
-`/sec-threat-model` skill talimatlarını uygula.
-- Yukarıdaki /sec-scope analizini baz al
-- STRIDE analizini conversation'a yaz
-- Analiz bittikten sonra `threat-modeling.html` artifact'ı üret
-- Bir sonraki adıma geç
-
----
-
-### Adım 3 — /sec-owasp + /sec-regulatory (paralel)
-
-Her ikisini de sırayla çalıştır (conversation'da ayrı başlıklar altında):
-
-**3a.** `/sec-owasp` skill talimatlarını uygula → OWASP bulgularını conversation'a yaz
-**3b.** `/sec-regulatory` skill talimatlarını uygula → Mevzuat analizini conversation'a yaz
+Apply the `/sec-scope` skill instructions.
+- Ask the 9-question intake in a single message
+- Once all answers are clear, write the scope analysis to the conversation
+- Move to the next step
 
 ---
 
-### Adım 4 — /sec-igrc
+### Step 2 — /sec-threat-model
 
-`/sec-igrc` skill talimatlarını uygula.
-- Yukarıdaki /sec-scope ve /sec-regulatory analizlerini baz al
-- İç kontrol ve RACI analizini conversation'a yaz
-
----
-
-### Adım 5 — /sec-project-requirements
-
-`/sec-project-requirements` skill talimatlarını uygula.
-- Yukarıdaki tüm analizleri (scope, threat model, owasp, regulatory, igrc) baz al
-- Gereksinimleri conversation'a yaz
-- Analiz bittikten sonra `project-requirements.html` artifact'ı üret
+Apply the `/sec-threat-model` skill instructions.
+- Base the analysis on the /sec-scope output above in the conversation
+- Write the STRIDE analysis to the conversation
+- After the analysis, produce the `threat-modeling.html` artifact
+- Move to the next step
 
 ---
 
-### Adım 6 — Özet
+### Step 3 — /sec-owasp + /sec-regulatory (parallel)
 
-Pipeline tamamlandığında kısa bir özet yaz:
+Run both in sequence under separate headings in the conversation:
+
+**3a.** Apply `/sec-owasp` skill instructions → write OWASP findings to conversation
+**3b.** Apply `/sec-regulatory` skill instructions → write regulatory analysis to conversation
+
+---
+
+### Step 4 — /sec-igrc
+
+Apply the `/sec-igrc` skill instructions.
+- Base the analysis on the /sec-scope and /sec-regulatory outputs above
+- Write the internal control and RACI analysis to the conversation
+
+---
+
+### Step 5 — /sec-project-requirements
+
+Apply the `/sec-project-requirements` skill instructions.
+- Base the analysis on all previous outputs (scope, threat model, owasp, regulatory, igrc)
+- Write the requirements to the conversation
+- After the analysis, produce the `project-requirements.html` artifact
+
+---
+
+### Step 6 — Summary
+
+When the pipeline is complete, write a short summary:
 
 ```
-Güvenlik Değerlendirmesi Tamamlandı
-=====================================
+Security Assessment Complete
+=============================
 
-Proje     : [proje adı]
-Kapsam    : [ortam, sektör]
+Project  : [project name]
+Scope    : [environment, sector]
 
-Bulgular  :
-  Kritik  : N
-  Yüksek  : N
-  Orta    : N
-  Düşük   : N
+Findings :
+  Critical : N
+  High     : N
+  Medium   : N
+  Low      : N
 
-Çıktılar  :
+Outputs  :
   ✓ threat-modeling.html
   ✓ project-requirements.html
 ```
 
 ## Hard Rules
 
-- Kullanıcıya yalnızca başta bir kez soru sor; pipeline boyunca onay isteme.
-- Her adım tamamlanmadan bir sonrakine geçme.
-- Hiçbir adımda dosya oluşturma — tüm analiz conversation'da kalır.
-- Sadece iki artifact üretilir: `threat-modeling.html` ve `project-requirements.html`.
-- Bu bir değerlendirme pipeline'ı — go/no-go kararı verme, sadece bulgular ve gereksinimler üret.
+- Ask the user only once at the start; do not ask for confirmation during the pipeline.
+- Do not move to the next step before the current one is complete.
+- Do not create any files — all analysis stays in the conversation.
+- Only two artifacts are produced: `threat-modeling.html` and `project-requirements.html`.
+- This is an assessment pipeline — do not make go/no-go decisions, only produce findings and requirements.
+- Use the user's language throughout the entire pipeline.

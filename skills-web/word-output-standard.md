@@ -1,15 +1,15 @@
 # Word Output Standard — Claude Web
 
-LLM, aşağıdaki HTML şablonlarını **artifact olarak** üretir.
-Microsoft Word `.html` dosyalarını natively açar.
+The LLM produces the HTML templates below **as artifacts**.
+Microsoft Word opens `.html` files natively.
 
-Her iki artifact için **aynı CSS** kullanılır — aşağıda tanımlı.
+Both artifacts use the **same CSS** — defined below.
 
 ---
 
-## Paylaşılan CSS
+## Shared CSS
 
-Her HTML artifact'ın `<head>` bölümüne ekle:
+Insert inside `<style>` tags in `<head>` of each HTML artifact:
 
 ```html
 <style>
@@ -54,107 +54,106 @@ Her HTML artifact'ın `<head>` bölümüne ekle:
 
 ## threat-modeling.html
 
-`/sec-threat-model` tarafından Phase 7'de üretilir.
+Produced by `/sec-threat-model` in Step 7.
+Section headings and content should be written in the user's language.
 
 ```html
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="[USER_LANGUAGE_CODE]">
 <head>
   <meta charset="UTF-8">
-  <title>Threat Model — [PROJE_ADI]</title>
-  <!-- PAYLAŞILAN CSS BURAYA -->
+  <title>Threat Model — [PROJECT_NAME]</title>
+  <!-- INSERT SHARED CSS HERE -->
 </head>
 <body>
 
 <div class="cover">
-  <h1>Threat Model Raporu</h1>
+  <h1>Threat Model Report</h1>
   <div class="meta">
-    <strong>Proje:</strong> [PROJE_ADI]<br>
-    <strong>Tarih:</strong> [ISO_TARIH]<br>
-    <strong>Metodoloji:</strong> STRIDE<br>
-    <strong>Hazırlayan:</strong> Security Assessment Pipeline /sec-threat-model
+    <strong>[Project label]:</strong> [PROJECT_NAME]<br>
+    <strong>[Date label]:</strong> [ISO_DATE]<br>
+    <strong>[Methodology label]:</strong> STRIDE<br>
+    <strong>[Prepared by label]:</strong> Security Assessment Pipeline /sec-threat-model
   </div>
 </div>
 
-<h2>Yönetici Özeti</h2>
-<p>[2-3 cümle: en kritik tehditler, genel risk seviyesi, önerilen öncelikli aksiyon]</p>
+<h2>[Executive Summary heading]</h2>
+<p>[2–3 sentences: most critical threats, overall risk level, recommended priority action]</p>
 
 <table>
-  <tr><th>Toplam</th><th>Kritik</th><th>Yüksek</th><th>Orta</th><th>Düşük</th></tr>
+  <tr><th>[Total]</th><th>[Critical]</th><th>[High]</th><th>[Medium]</th><th>[Low]</th></tr>
   <tr><td>[N]</td><td>[N]</td><td>[N]</td><td>[N]</td><td>[N]</td></tr>
 </table>
 
-<h2>Kapsam Referansı</h2>
+<h2>[Scope Reference heading]</h2>
 <ul>
-  <li><strong>Uygulamalar:</strong> [liste]</li>
-  <li><strong>Veri Depoları:</strong> [liste]</li>
-  <li><strong>Güven Sınırları:</strong> [liste]</li>
-  <li><strong>Hassas Veri:</strong> [liste]</li>
+  <li><strong>[Applications label]:</strong> [list]</li>
+  <li><strong>[Data Stores label]:</strong> [list]</li>
+  <li><strong>[Trust Boundaries label]:</strong> [list]</li>
+  <li><strong>[Sensitive Data label]:</strong> [list]</li>
 </ul>
 
 <div class="page-break"></div>
-<h2>STRIDE Bileşen Tehdit Matrisi</h2>
+<h2>[STRIDE Matrix heading]</h2>
 <table>
   <tr>
-    <th>Varlık</th><th>Spoofing</th><th>Tampering</th>
+    <th>[Asset]</th><th>Spoofing</th><th>Tampering</th>
     <th>Repudiation</th><th>Info Disclosure</th><th>DoS</th><th>EoP</th>
   </tr>
-  <!-- Her varlık için bir satır — class: critical / high / medium / low -->
-  <tr class="[seviye]">
-    <td>[varlık]</td><td>[bulgu/YOK]</td><td>[bulgu/YOK]</td>
-    <td>[bulgu/YOK]</td><td>[bulgu/YOK]</td><td>[bulgu/YOK]</td><td>[bulgu/YOK]</td>
+  <!-- One row per asset — class: critical / high / medium / low -->
+  <tr class="[level]">
+    <td>[asset]</td><td>[finding/N/A]</td><td>[finding/N/A]</td>
+    <td>[finding/N/A]</td><td>[finding/N/A]</td><td>[finding/N/A]</td><td>[finding/N/A]</td>
   </tr>
 </table>
 
-<h2>Veri Akışı Tehditleri</h2>
+<h2>[Data Flow Threats heading]</h2>
 <table>
-  <tr><th>Akış</th><th>Tehdit</th><th>Kategori</th><th>Seviye</th><th>Açıklama</th></tr>
-  <!-- Her tehdit için bir satır -->
-  <tr class="[seviye]">
-    <td>[akış]</td><td>[tehdit]</td><td>[STRIDE]</td>
-    <td><span class="tag-[seviye]">[KRİTİK/YÜKSEK/ORTA/DÜŞÜK]</span></td>
-    <td>[açıklama]</td>
+  <tr><th>[Flow]</th><th>[Threat]</th><th>[Category]</th><th>[Level]</th><th>[Description]</th></tr>
+  <!-- One row per threat -->
+  <tr class="[level]">
+    <td>[flow]</td><td>[threat]</td><td>[STRIDE]</td>
+    <td><span class="tag-[level]">[CRITICAL/HIGH/MEDIUM/LOW]</span></td>
+    <td>[description]</td>
   </tr>
 </table>
 
 <div class="page-break"></div>
-<h2>Güven Sınırı İhlalleri</h2>
-<!-- Her sınır için -->
-<h3>[SINIR_ADI]</h3>
-<p><strong>Senaryo:</strong> [açıklama]</p>
-<p><strong>Seviye:</strong> <span class="tag-[seviye]">[SEVİYE]</span></p>
-<p><strong>Saldırı Yolu:</strong> [özet]</p>
+<h2>[Trust Boundary Violations heading]</h2>
+<!-- One block per boundary -->
+<h3>[BOUNDARY_NAME]</h3>
+<p><strong>[Scenario label]:</strong> [description]</p>
+<p><strong>[Level label]:</strong> <span class="tag-[level]">[LEVEL]</span></p>
+<p><strong>[Attack path label]:</strong> [brief]</p>
 
 <div class="page-break"></div>
-<h2>Saldırı Ağaçları</h2>
-<!-- Her ağaç için -->
-<h3>THREAT-[ID]: [BAŞLIK] — Risk Skoru: [N]</h3>
+<h2>[Attack Trees heading]</h2>
+<!-- One block per tree -->
+<h3>THREAT-[ID]: [TITLE] — [Risk Score label]: [N]</h3>
 <pre>
-Hedef: [hedef]
-├── Yol A: [başlık]
-│   ├── A1: [adım] — zorluk: [düşük/orta/yüksek]
-│   └── A2: [adım] — zorluk: [düşük/orta/yüksek]
-└── Yol B: [başlık]
-    └── B1: [adım] — zorluk: [düşük/orta/yüksek]
+[Goal label]: [goal]
+├── [Path A label]: [title]
+│   ├── A1: [step] — [difficulty label]: [low/medium/high]
+│   └── A2: [step] — [difficulty label]: [low/medium/high]
+└── [Path B label]: [title]
+    └── B1: [step] — [difficulty label]: [low/medium/high]
 </pre>
 
 <div class="page-break"></div>
-<h2>Tehdit Kaydı</h2>
+<h2>[Threat Register heading]</h2>
 <table>
-  <tr><th>ID</th><th>Başlık</th><th>Varlık</th><th>STRIDE</th>
-      <th>Olasılık</th><th>Etki</th><th>Skor</th><th>Seviye</th></tr>
-  <!-- Her tehdit için bir satır -->
-  <tr class="[seviye]">
-    <td>THREAT-[ID]</td><td>[başlık]</td><td>[varlık]</td><td>[kategori]</td>
-    <td>[1-5]</td><td>[1-5]</td><td>[skor]</td>
-    <td><span class="tag-[seviye]">[SEVİYE]</span></td>
+  <tr><th>ID</th><th>[Title]</th><th>[Asset]</th><th>STRIDE</th>
+      <th>[Likelihood]</th><th>[Impact]</th><th>[Score]</th><th>[Level]</th></tr>
+  <!-- One row per threat -->
+  <tr class="[level]">
+    <td>THREAT-[ID]</td><td>[title]</td><td>[asset]</td><td>[category]</td>
+    <td>[1-5]</td><td>[1-5]</td><td>[score]</td>
+    <td><span class="tag-[level]">[LEVEL]</span></td>
   </tr>
 </table>
 
 <div class="disclaimer">
-  <strong>Not:</strong> Bu belge Security Assessment Pipeline /sec-threat-model tarafından
-  otomatik üretilmiştir. Sağlanan kapsam bilgisine dayanır; kaynak kod veya gerçek sistem
-  yapılandırmasını doğrudan analiz etmez. Profesyonel sızma testinin yerini tutmaz.
+  [Disclaimer in user's language: this document was automatically produced by the Security Assessment Pipeline /sec-threat-model, based on the provided scope information; it does not directly analyze source code or real system configuration; it is not a substitute for professional penetration testing.]
 </div>
 
 </body>
@@ -165,103 +164,101 @@ Hedef: [hedef]
 
 ## project-requirements.html
 
-`/sec-project-requirements` tarafından Phase 7'de üretilir.
+Produced by `/sec-project-requirements` in Step 7.
+Section headings and content should be written in the user's language.
 
 ```html
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="[USER_LANGUAGE_CODE]">
 <head>
   <meta charset="UTF-8">
-  <title>Güvenlik Gereksinimleri — [PROJE_ADI]</title>
-  <!-- PAYLAŞILAN CSS BURAYA -->
+  <title>Security Requirements — [PROJECT_NAME]</title>
+  <!-- INSERT SHARED CSS HERE -->
 </head>
 <body>
 
 <div class="cover">
-  <h1>Güvenlik Gereksinimleri Belgesi</h1>
+  <h1>Security Requirements Document</h1>
   <div class="meta">
-    <strong>Proje:</strong> [PROJE_ADI]<br>
-    <strong>Tarih:</strong> [ISO_TARIH]<br>
-    <strong>Hazırlayan:</strong> Security Assessment Pipeline /sec-project-requirements<br>
-    <strong>Kapsam:</strong> [hangi skill'ler çalıştı]
+    <strong>[Project label]:</strong> [PROJECT_NAME]<br>
+    <strong>[Date label]:</strong> [ISO_DATE]<br>
+    <strong>[Prepared by label]:</strong> Security Assessment Pipeline /sec-project-requirements<br>
+    <strong>[Coverage label]:</strong> [which skills ran]
   </div>
 </div>
 
-<h2>Yönetici Özeti</h2>
+<h2>[Executive Summary heading]</h2>
 <p>
-  <strong>Güvenlik Postürü:</strong>
-  <span class="posture-[red|amber|green]">[🔴 KIRMIZI | 🟡 SARI | 🟢 YEŞİL]</span>
+  <strong>[Security Posture label]:</strong>
+  <span class="posture-[red|amber|green]">[🔴 RED | 🟡 AMBER | 🟢 GREEN]</span>
 </p>
-<p>[2-3 cümle gerekçe — teknik olmayan okuyucu için]</p>
+<p>[2–3 sentence rationale — for a non-technical reader]</p>
 
-<h3>Bu Proje Nedir?</h3>
-<p>[2 cümle]</p>
+<h3>[What does this project do? heading]</h3>
+<p>[2 sentences]</p>
 
-<h3>En Önemli 3 Güvenlik Gereksinimi</h3>
+<h3>[Top 3 Requirements heading]</h3>
 <ol>
-  <li><strong>[SEC-REQ-001]</strong> [başlık] — [sade açıklama]</li>
-  <li><strong>[SEC-REQ-002]</strong> [başlık] — [sade açıklama]</li>
-  <li><strong>[SEC-REQ-003]</strong> [başlık] — [sade açıklama]</li>
+  <li><strong>[SEC-REQ-001]</strong> [title] — [plain description]</li>
+  <li><strong>[SEC-REQ-002]</strong> [title] — [plain description]</li>
+  <li><strong>[SEC-REQ-003]</strong> [title] — [plain description]</li>
 </ol>
 
-<h3>Özet</h3>
+<h3>[Summary heading]</h3>
 <table>
-  <tr><th>Seviye</th><th>Adet</th></tr>
-  <tr class="critical"><td><span class="tag-critical">KRİTİK</span></td><td>[N]</td></tr>
-  <tr class="high"><td><span class="tag-high">YÜKSEK</span></td><td>[N]</td></tr>
-  <tr class="medium"><td><span class="tag-medium">ORTA</span></td><td>[N]</td></tr>
-  <tr><td>DÜŞÜK</td><td>[N]</td></tr>
+  <tr><th>[Level]</th><th>[Count]</th></tr>
+  <tr class="critical"><td><span class="tag-critical">CRITICAL</span></td><td>[N]</td></tr>
+  <tr class="high"><td><span class="tag-high">HIGH</span></td><td>[N]</td></tr>
+  <tr class="medium"><td><span class="tag-medium">MEDIUM</span></td><td>[N]</td></tr>
+  <tr><td>LOW</td><td>[N]</td></tr>
 </table>
 
 <div class="page-break"></div>
-<h2><span class="tag-critical">KRİTİK</span> Gereksinimler — Risk: 20-25</h2>
+<h2><span class="tag-critical">CRITICAL</span> [Requirements heading] — Risk: 20–25</h2>
 
-<!-- Her kritik gereksinim için -->
-<h3>[SEC-REQ-001]: [BAŞLIK]</h3>
+<!-- One block per critical requirement -->
+<h3>[SEC-REQ-001]: [TITLE]</h3>
 <table>
-  <tr><th>Risk Skoru</th><td>[N] (KRİTİK)</td><th>Kaynak Bulgular</th><td>[ID'ler]</td></tr>
-  <tr><th>Sahip</th><td>[ekip]</td><th>Öncelik</th><td>1 — Kritik</td></tr>
+  <tr><th>[Risk Score]</th><td>[N] (CRITICAL)</td><th>[Source Findings]</th><td>[IDs]</td></tr>
+  <tr><th>[Owner]</th><td>[team]</td><th>[Priority]</th><td>1 — Critical</td></tr>
 </table>
-<p><strong>Gereksinim:</strong> [ne uygulanmalı]</p>
-<p><strong>Kabul Kriterleri:</strong></p>
+<p><strong>[Requirement label]:</strong> [what must be implemented]</p>
+<p><strong>[Acceptance Criteria label]:</strong></p>
 <ul>
-  <li>☐ [kriter 1]</li>
-  <li>☐ [kriter 2]</li>
+  <li>☐ [criterion 1]</li>
+  <li>☐ [criterion 2]</li>
 </ul>
 
 <div class="page-break"></div>
-<h2><span class="tag-high">YÜKSEK</span> Gereksinimler — Risk: 12-19</h2>
-<!-- Aynı yapı -->
+<h2><span class="tag-high">HIGH</span> [Requirements heading] — Risk: 12–19</h2>
+<!-- Same structure -->
 
 <div class="page-break"></div>
-<h2><span class="tag-medium">ORTA</span> Gereksinimler — Risk: 6-11</h2>
-<!-- Aynı yapı, kısa -->
+<h2><span class="tag-medium">MEDIUM</span> [Requirements heading] — Risk: 6–11</h2>
+<!-- Same structure, abbreviated -->
 
 <div class="page-break"></div>
-<h2>Gereksinimler Özet Tablosu</h2>
+<h2>[Requirements Summary Table heading]</h2>
 <table>
-  <tr><th>ID</th><th>Başlık</th><th>Kaynak</th><th>Risk</th><th>Seviye</th><th>Sahip</th></tr>
-  <!-- Her gereksinim için bir satır — class: critical / high / medium -->
-  <tr class="[seviye]">
-    <td>[SEC-REQ-xxx]</td><td>[başlık]</td><td>[kaynak]</td>
-    <td>[skor]</td><td><span class="tag-[seviye]">[SEVİYE]</span></td><td>[sahip]</td>
+  <tr><th>ID</th><th>[Title]</th><th>[Source]</th><th>[Risk]</th><th>[Level]</th><th>[Owner]</th></tr>
+  <!-- One row per requirement — class: critical / high / medium -->
+  <tr class="[level]">
+    <td>[SEC-REQ-xxx]</td><td>[title]</td><td>[source]</td>
+    <td>[score]</td><td><span class="tag-[level]">[LEVEL]</span></td><td>[owner]</td>
   </tr>
 </table>
 
-<h2>Değerlendirme Kapsamı</h2>
+<h2>[Assessment Coverage heading]</h2>
 <table>
-  <tr><th>Skill</th><th>Durum</th></tr>
-  <tr><td>/sec-threat-model</td><td>[Yüklendi / Eksik]</td></tr>
-  <tr><td>/sec-owasp</td><td>[Yüklendi / Eksik]</td></tr>
-  <tr><td>/sec-regulatory</td><td>[Yüklendi / Eksik]</td></tr>
-  <tr><td>/sec-igrc</td><td>[Yüklendi / Eksik]</td></tr>
+  <tr><th>[Skill]</th><th>[Status]</th></tr>
+  <tr><td>/sec-threat-model</td><td>[Loaded / Missing]</td></tr>
+  <tr><td>/sec-owasp</td><td>[Loaded / Missing]</td></tr>
+  <tr><td>/sec-regulatory</td><td>[Loaded / Missing]</td></tr>
+  <tr><td>/sec-igrc</td><td>[Loaded / Missing]</td></tr>
 </table>
 
 <div class="disclaimer">
-  <strong>Not:</strong> Bu belge Security Assessment Pipeline /sec-project-requirements tarafından
-  otomatik üretilmiştir. Tehdit modeli, OWASP analizi, mevzuat uyum ve iç kontrol
-  değerlendirme bulgularına dayanır. Profesyonel sızma testi ve bağımsız güvenlik
-  denetiminin yerini tutmaz.
+  [Disclaimer in user's language: this document was automatically produced by the Security Assessment Pipeline /sec-project-requirements, based on threat model, OWASP analysis, regulatory compliance, and internal control findings; it is not a substitute for professional penetration testing or independent security audit.]
 </div>
 
 </body>
@@ -270,11 +267,12 @@ Hedef: [hedef]
 
 ---
 
-## Artifact Üretim Talimatı
+## Artifact Generation Instructions
 
-- Şablondaki tüm `[PLACEHOLDER]` değerlerini gerçek içerikle doldur.
-- Satır class'larını (`critical`, `high`, `medium`, `low`) gerçek seviyeye göre uygula.
-- Postür class'ını (`posture-red`, `posture-amber`, `posture-green`) sonuca göre uygula.
-- Paylaşılan CSS'i `<style>` tag'leri içinde `<head>`'e ekle.
-- Template comment'lerini kaldır.
+- Replace all `[PLACEHOLDER]` values with actual content from the analysis.
+- Write all section headings and content in the user's language.
+- Apply row classes (`critical`, `high`, `medium`, `low`) based on actual levels.
+- Apply posture class (`posture-red`, `posture-amber`, `posture-green`) based on result.
+- Insert the Shared CSS block inside `<style>` tags in `<head>`.
+- Remove all template comments and placeholder labels.
 - Artifact type: `text/html`

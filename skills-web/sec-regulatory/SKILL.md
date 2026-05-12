@@ -1,94 +1,97 @@
 ---
 name: sec-regulatory
-description: BDDK, SPK, KVKK ve PCI-DSS çerçevelerinde mevzuat uyum analizi yapar. Gap'leri ve remediation adımlarını belgeler.
+description: Performs regulatory compliance analysis against BDDK, SPK, KVKK, and PCI-DSS frameworks. Documents gaps and remediation steps.
 ---
 
-# /sec-regulatory — Mevzuat Uyum Analizi
+# /sec-regulatory — Regulatory Compliance Analysis
 
-## Amaç
+## Purpose
 
-Projenin ilgili mevzuat çerçevelerine uyumunu değerlendir.
-Conversation'daki /sec-scope analizini baz al — özellikle sektör ve hassas veri kategorilerini.
+Assess the project's compliance with applicable regulatory frameworks.
+Base the analysis on the /sec-scope output in the conversation — especially the sector and sensitive data categories.
 
-## Çalıştırma Talimatları
+## Language Rule
 
-### Adım 1 — Geçerli Mevzuatı Belirle
+Use the same language the user is writing in for all output.
 
-/sec-scope analizindeki sektör ve veri kategorilerine göre hangi çerçevelerin geçerli olduğuna karar ver:
+## Execution Instructions
 
-| Çerçeve | Geçerlilik Koşulu |
+### Step 1 — Determine Applicable Frameworks
+
+Based on the sector and data categories in the /sec-scope analysis, decide which frameworks apply:
+
+| Framework | Applicable When |
 |---|---|
-| BDDK | Bankacılık veya ödeme hizmetleri |
-| SPK | Sermaye piyasası faaliyetleri |
-| KVKK | Türkiye'de kişisel veri işleme |
-| PCI-DSS | Kart verisi işleme veya saklama |
+| BDDK | Banking or payment services |
+| SPK | Capital market activities |
+| KVKK | Personal data processing in Turkey |
+| PCI-DSS | Card data processing or storage |
 
-Geçerli olmayan çerçeveleri atla ve gerekçesini belirt.
+Skip frameworks that do not apply and state the reason.
 
-### Adım 2 — Her Çerçeve İçin Gap Analizi
+### Step 2 — Gap Analysis per Framework
 
-Geçerli her çerçeve için kritik maddeleri değerlendir:
+For each applicable framework, evaluate the critical requirements:
 
-**KVKK (geçerliyse)**
-- Kişisel veri envanteri ve sınıflandırması
-- Açık rıza mekanizması
-- Veri saklama ve silme prosedürleri
-- Veri ihlali bildirim süreci (72 saat)
-- Teknik ve idari tedbirler
-- Yurt dışı veri transferi kısıtlamaları
+**KVKK (if applicable)**
+- Personal data inventory and classification
+- Explicit consent mechanism
+- Data retention and deletion procedures
+- Data breach notification process (72-hour requirement)
+- Technical and administrative safeguards
+- Cross-border data transfer restrictions
 
-**BDDK (geçerliyse)**
-- Bilgi sistemleri yönetimi gereksinimleri
-- Penetrasyon testi zorunluluğu
-- Güvenlik olay yönetimi
-- Dış hizmet sağlayıcı kontrolü
-- İş sürekliliği planı
+**BDDK (if applicable)**
+- Information systems management requirements
+- Mandatory penetration testing
+- Security incident management
+- Third-party service provider controls
+- Business continuity plan
 
-**PCI-DSS (geçerliyse)**
-- Kart verisi şifreleme (P2PE/tokenizasyon)
-- Ağ segmentasyonu
-- Erişim kontrolü ve log yönetimi
-- Güvenlik açığı tarama zorunluluğu
+**PCI-DSS (if applicable)**
+- Card data encryption (P2PE/tokenization)
+- Network segmentation
+- Access control and log management
+- Mandatory vulnerability scanning
 
-**SPK (geçerliyse)**
-- Bilgi güvenliği politikaları
-- Denetim izi gereksinimleri
-- Müşteri veri koruma
+**SPK (if applicable)**
+- Information security policies
+- Audit trail requirements
+- Customer data protection
 
-### Adım 3 — Analizi Yaz
+### Step 3 — Write Analysis to Conversation
 
 ---
 
-## /sec-regulatory Analizi
+## /sec-regulatory Analysis
 
-### Geçerli Mevzuat
-[Hangi çerçeveler değerlendirildi, hangiler kapsam dışı ve neden]
+### Applicable Frameworks
+[Which frameworks were assessed, which were out of scope and why]
 
-### Uyum Matrisi
+### Compliance Matrix
 
-| Çerçeve | Madde | Durum | Gap Açıklaması | Öneri |
+| Framework | Requirement | Status | Gap Description | Recommendation |
 |---|---|---|---|---|
-| KVKK | Veri envanteri | UYUMSUZ | [açıklama] | [öneri] |
-| KVKK | 72 saat ihlal bildirimi | KISMİ | [açıklama] | [öneri] |
-| BDDK | Pen test | UYUMLU | — | — |
-| ... | | | | |
+| KVKK | Data inventory | NON-COMPLIANT | [description] | [recommendation] |
+| KVKK | 72-hour breach notification | PARTIAL | [description] | [recommendation] |
+| BDDK | Pen test | COMPLIANT | — | — |
 
-Durum değerleri: **UYUMLU** / **KISMİ** / **UYUMSUZ** / **DEĞERLENDİRİLEMEDİ**
+Status values: **COMPLIANT** / **PARTIAL** / **NON-COMPLIANT** / **UNABLE TO ASSESS**
 
-### Gap Özeti
-| Çerçeve | Uyumlu | Kısmi | Uyumsuz |
+### Gap Summary
+| Framework | Compliant | Partial | Non-Compliant |
 |---|---|---|---|
 | KVKK | N | N | N |
 | BDDK | N | N | N |
 | PCI-DSS | N | N | N |
 
-### Kritik Bulgular
-[UYUMSUZ maddelerin özeti ve öncelik sırası]
+### Critical Findings
+[Summary of NON-COMPLIANT items in priority order]
 
 ---
 
 ## Hard Rules
 
-- Geçerli olmayan çerçeveleri değerlendirme — kapsam dışı olduğunu açıkça belirt.
-- Dosya okuma veya yazma yapma.
-- Her gap için somut remediation adımı yaz.
+- Do not evaluate frameworks that are not applicable — explicitly state they are out of scope.
+- Do not read or write any files.
+- Write a concrete remediation step for every gap.

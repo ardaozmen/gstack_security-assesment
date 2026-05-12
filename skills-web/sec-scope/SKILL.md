@@ -1,100 +1,110 @@
 ---
 name: sec-scope
-description: Proje güvenlik kapsamını tanımlar. Varlık envanteri, veri akışları ve güven sınırlarını belirler. Pipeline'ın ilk zorunlu adımı.
+description: Defines the project security scope. Identifies asset inventory, data flows, and trust boundaries. First mandatory step in the pipeline.
 ---
 
-# /sec-scope — Kapsam Tanımı
+# /sec-scope — Scope Definition
 
-## Amaç
+## Purpose
 
-Projenin güvenlik değerlendirme sınırını belirle. Bu adımda:
+Establish the security assessment boundary for the project. In this step:
 
-- Proje bağlamını ve ortamını anla
-- Varlık envanterini çıkar (uygulamalar, veri depoları, entegrasyonlar, altyapı)
-- Veri akışlarını ve şifreleme durumunu belgele
-- Güven sınırlarını ve dışa açık yüzeyleri tanımla
+- Understand the project context and environment
+- Build the asset inventory (applications, data stores, integrations, infrastructure)
+- Document data flows and encryption status
+- Identify trust boundaries and externally exposed surfaces
 
-## Çalıştırma Talimatları
+## Language Rule
 
-### Adım 1 — 9 Soruluk Intake
+Use the same language the user is writing in for all output.
 
-Aşağıdaki 9 soruyu tek mesajda sor. Cevaplar gelmeden analizi başlatma.
-Herhangi bir cevap belirsizse yalnızca o soruya özel clarification iste.
+## Execution Instructions
+
+### Step 1 — 9-Question Intake
+
+Ask all 9 questions below in a single message. Do not begin the analysis until the answers arrive.
+If any answer is ambiguous, ask only the specific clarifying question needed — do not restart the intake.
 
 ```
-Projeyi değerlendirmek için aşağıdaki 9 soruyu yanıtlar mısınız?
+To assess the project, please answer the following 9 questions:
 
-1. Bu yeni bir uygulama mı, yoksa mevcut bir sistemin değerlendirmesi mi?
-   (yeni geliştirme / mevcut sistem entegrasyonu / üçüncü taraf ürün)
+1. Is this a new application or an assessment of an existing system?
+   (new development / integration with existing system / third-party product)
 
-2. Altyapı yeni mi kuruluyor, yoksa mevcut/paylaşılan altyapı mı kullanılacak?
-   (yeni altyapı / mevcut-paylaşılan altyapı / belirsiz)
+2. Is the infrastructure being built from scratch or using existing/shared infrastructure?
+   (new infrastructure / existing or shared infrastructure / unclear)
 
-3. Sistemi kimler kullanacak?
-   (iç kullanıcılar / kurumsal müşteriler / bireysel müşteriler / API tüketicileri / karışık)
+3. Who will use the system?
+   (internal users / enterprise customers / individual/consumer customers / API consumers / mixed)
 
-4. Sistem internete açık mı olacak?
-   (evet — doğrudan / evet — CDN/WAF arkasında / hayır — yalnızca iç ağ / belirsiz)
+4. Will the system be internet-facing?
+   (yes — directly / yes — behind CDN/WAF / no — internal network only / unclear)
 
-5. Hizmet herhangi bir public cloud hizmeti kullanıyor mu?
-   (evet — AWS / Azure / GCP / diğer / hayır — on-premise / hibrit / belirsiz)
+5. Does the service use any public cloud?
+   (yes — AWS / Azure / GCP / other / no — on-premise / hybrid / unclear)
 
-6. Kullanıcı kimlik doğrulaması gerekiyor mu?
-   (evet — SSO / OAuth / LDAP / custom / hayır / belirsiz)
+6. Is user authentication required?
+   (yes — SSO / OAuth / LDAP / custom / no / unclear)
 
-7. Sistemi kim geliştiriyor?
-   (iç ekip / dış-outsource geliştirici / SaaS-hazır ürün / karışık)
+7. Who is building the system?
+   (in-house team / external/outsourced developer / SaaS/off-the-shelf product / mixed)
 
-8. Üçüncü taraf entegrasyonlar var mı?
-   (evet — ödeme sistemi / kimlik sağlayıcı / SMS-e-posta / harici API / diğer)
-   (hayır)
+8. Are there any third-party integrations?
+   (yes — payment gateway / identity provider / SMS/email service / external API / other)
+   (no)
 
-9. Sistem gizli veya hassas veri işleyecek mi?
-   (evet — TC kimlik no / finansal kayıtlar / sağlık verisi / kimlik bilgileri / diğer KVK verisi)
-   (hayır)
+9. Will the system process confidential or sensitive data?
+   (yes — national ID / financial records / health data / credentials / other personal data)
+   (no — no personal data will be processed)
 ```
 
-### Adım 2 — Kapsam Analizini Yaz
+### Step 2 — Write Scope Analysis
 
-Tüm cevaplar geldikten sonra aşağıdaki yapıda analizi conversation'a yaz:
+Once all answers are received, write the analysis to the conversation using the structure below:
 
 ---
 
-## /sec-scope Analizi
+## /sec-scope Analysis
 
-### Proje Özeti
-[2 cümle: ne yapıyor, kim kullanıyor, hangi ortamda]
+### Project Overview
+[2 sentences: what it does, who uses it, what environment]
 
-### Varlık Envanteri
+### Asset Inventory
 
-**Uygulamalar ve Servisler**
-| Ad | Tür | Teknoloji | Dışa Açık |
+**Applications & Services**
+| Name | Type | Technology | Externally Accessible |
 |---|---|---|---|
-| [ad] | [backend/frontend/api/worker] | [stack] | evet/hayır |
+| [name] | [backend/frontend/api/worker] | [stack] | yes/no |
 
-**Veri Depoları**
-| Ad | Tür | KVK Verisi İçeriyor | Şifreli |
-|---|---|---|---|
-
-**Dış Entegrasyonlar**
-| Ad | Yön | Paylaşılan Veri | Auth Yöntemi |
+**Data Stores**
+| Name | Type | Contains Personal Data | Encrypted at Rest |
 |---|---|---|---|
 
-**Hassas Veri Kategorileri**
-- [kategori]: [açıklama]
-- YOK (varsa)
+**External Integrations**
+| Name | Direction | Data Shared | Auth Method |
+|---|---|---|---|
 
-### Veri Akışı Özeti
-[Sisteme giren, çıkan, nasıl hareket ettiği, nerede depolandığı]
+**Sensitive Data Categories**
+- [category]: [description]
+- NONE (if applicable)
 
-### Güven Sınırları
-| Sınır | Kimden | Kime | Auth | Log'lanıyor |
+### Data Flow Summary
+[Narrative: what enters the system, what leaves, how it moves, where it is stored]
+
+### Trust Boundaries
+| Boundary | From | To | Auth Method | Logged |
 |---|---|---|---|---|
 
-### Varsayımlar ve Eksikler
-- [VARSAYIM-001]: [açıklama]
-- [EKSİK-001]: [açıklama] — UYARI
+### Assumptions & Gaps
+- [ASSUMPTION-001]: [description]
+- [GAP-001]: [description] — WARNING
 
 ---
 
-Analiz tamamlandı. Bir sonraki adım: /sec-threat-model
+Analysis complete. Next step: /sec-threat-model
+
+## Hard Rules
+
+- Do not produce scope analysis until all 9 questions have clear answers.
+- Do not read or write any files.
+- Mark unknown fields as [ASSUMPTION], do not invent them.
