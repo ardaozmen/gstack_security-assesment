@@ -13,6 +13,7 @@ dist/
 build/
 .env
 .env.*
+.DS_Store
 
 # Generated pipeline output files (uncomment to exclude from tracking)
 # SCOPE.md
