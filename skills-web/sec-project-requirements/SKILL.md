@@ -7,8 +7,14 @@ description: Consolidates all assessment findings into prioritized security requ
 
 ## Purpose
 
-Transform all analysis outputs from the conversation (scope, threat model, OWASP, regulatory, igrc) into a single prioritized requirements document.
+Transform all analysis outputs held in context (scope, threat model, OWASP, regulatory, igrc) into a single prioritized requirements document.
 This is an assessment document — not a decision-making mechanism.
+
+## Pipeline Mode
+
+When called by `/security-assessment`: do NOT write the requirements analysis to the conversation.
+After generating the `project-requirements.html` artifact, print nothing.
+The orchestrator prints the status line.
 
 ## Language Rule
 

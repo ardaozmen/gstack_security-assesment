@@ -8,11 +8,17 @@ description: Builds a STRIDE-based threat model. Produces a component-threat mat
 ## Purpose
 
 Systematically identify threats against every system component using STRIDE.
-Base the analysis on the /sec-scope output in the conversation — no file reading.
+Base the analysis on the /sec-scope output held in context — no file reading.
 
 ## Language Rule
 
 Use the same language the user is writing in for all output.
+
+## Pipeline Mode
+
+When called by `/security-assessment`: do NOT write the analysis to the conversation.
+Hold all findings in context for subsequent steps.
+The orchestrator prints the status line — this skill prints nothing.
 
 ## Execution Instructions
 

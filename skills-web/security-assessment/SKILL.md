@@ -1,131 +1,128 @@
 ---
 name: security-assessment
-description: Starts the full security assessment pipeline. Collects project information, runs all analysis steps in sequence, and produces two HTML output documents.
+description: Starts the full security assessment pipeline. Reads the project description, runs all steps silently, and produces two HTML documents. Only the step timeline is shown in the conversation.
 ---
 
 # /security-assessment — Pipeline Orchestrator
 
 ## Purpose
 
-Take the project information provided by the user and run the security assessment pipeline end-to-end.
-Execute all steps in order, keep analysis results in conversation, and produce two HTML artifacts at the end.
-
-**Ask the user only once at the start. The pipeline runs automatically after that.**
+Run the complete security assessment pipeline from a single command.
+Show only a step-by-step timeline in the conversation — no analysis output.
+Produce two HTML artifacts at the end.
 
 ## Language Rule
 
-Detect the language the user writes in and use that language for all responses, analysis output, and document content throughout the entire pipeline.
+Detect the language the user writes in and use that language for all output throughout the pipeline.
 
 ## Usage
 
 ```
 /security-assessment
-[project name and short description]
-```
-
-## Pipeline Flow
-
-```
-/sec-scope
-      │
-      ▼
-/sec-threat-model ──→ threat-modeling.html
- ┌────┴──────────────────┐
- ▼                        ▼
-/sec-owasp       /sec-regulatory
- │                        │
- │                   /sec-igrc
- │                        │
- └──────────┬─────────────┘
-            ▼
-/sec-project-requirements ──→ project-requirements.html
+[project name and description]
 ```
 
 ## Execution Instructions
 
-### Step 0 — Project Information
+### Step 0 — Start
 
-If the user has not provided project information, ask in a single message:
-1. Project name and one-sentence description
-2. New development, existing system, or third-party product?
-3. Regulated sector? (finance/banking, capital markets, other)
-
-Once the information is received, start the pipeline. Do not ask for confirmation again.
-
----
-
-### Step 1 — /sec-scope
-
-Apply the `/sec-scope` skill instructions.
-- Ask the 9-question intake in a single message
-- Once all answers are clear, write the scope analysis to the conversation
-- Move to the next step
-
----
-
-### Step 2 — /sec-threat-model
-
-Apply the `/sec-threat-model` skill instructions.
-- Base the analysis on the /sec-scope output above in the conversation
-- Write the STRIDE analysis to the conversation
-- After the analysis, produce the `threat-modeling.html` artifact
-- Move to the next step
-
----
-
-### Step 3 — /sec-owasp + /sec-regulatory (parallel)
-
-Run both in sequence under separate headings in the conversation:
-
-**3a.** Apply `/sec-owasp` skill instructions → write OWASP findings to conversation
-**3b.** Apply `/sec-regulatory` skill instructions → write regulatory analysis to conversation
-
----
-
-### Step 4 — /sec-igrc
-
-Apply the `/sec-igrc` skill instructions.
-- Base the analysis on the /sec-scope and /sec-regulatory outputs above
-- Write the internal control and RACI analysis to the conversation
-
----
-
-### Step 5 — /sec-project-requirements
-
-Apply the `/sec-project-requirements` skill instructions.
-- Base the analysis on all previous outputs (scope, threat model, owasp, regulatory, igrc)
-- Write the requirements to the conversation
-- After the analysis, produce the `project-requirements.html` artifact
-
----
-
-### Step 6 — Summary
-
-When the pipeline is complete, write a short summary:
+Print the pipeline header:
 
 ```
-Security Assessment Complete
-=============================
+Security Assessment — [Project Name]
+=====================================
+```
 
-Project  : [project name]
-Scope    : [environment, sector]
+Then immediately run Step 1.
 
-Findings :
-  Critical : N
-  High     : N
-  Medium   : N
-  Low      : N
+---
 
-Outputs  :
-  ✓ threat-modeling.html
-  ✓ project-requirements.html
+### Step 1 — Scope Definition  `/sec-scope`
+
+Apply `/sec-scope` skill instructions in **silent mode** (no analysis output to conversation).
+
+When scope intake is complete, print:
+
+```
+  Step 1/5  Scope Definition .............. ✓
+```
+
+Then immediately run Step 2.
+
+---
+
+### Step 2 — Threat Modeling  `/sec-threat-model`
+
+Apply `/sec-threat-model` skill instructions in **silent mode**.
+After analysis, generate the `threat-modeling.html` artifact.
+
+Print:
+
+```
+  Step 2/5  Threat Modeling ............... ✓  →  threat-modeling.html
+```
+
+Then immediately run Step 3.
+
+---
+
+### Step 3 — OWASP Analysis  `/sec-owasp`
+
+Apply `/sec-owasp` skill instructions in **silent mode**.
+
+Print:
+
+```
+  Step 3/5  OWASP Analysis ................ ✓
+```
+
+Then immediately run Step 4.
+
+---
+
+### Step 4 — Regulatory & Controls  `/sec-regulatory` + `/sec-igrc`
+
+Apply `/sec-regulatory` then `/sec-igrc` skill instructions in **silent mode**.
+
+Print:
+
+```
+  Step 4/5  Regulatory & Controls ......... ✓
+```
+
+Then immediately run Step 5.
+
+---
+
+### Step 5 — Security Requirements  `/sec-project-requirements`
+
+Apply `/sec-project-requirements` skill instructions in **silent mode**.
+After analysis, generate the `project-requirements.html` artifact.
+
+Print:
+
+```
+  Step 5/5  Security Requirements ......... ✓  →  project-requirements.html
+```
+
+---
+
+### Final Summary
+
+Print:
+
+```
+─────────────────────────────────────────────
+  Findings   Critical: N  High: N  Medium: N  Low: N
+  Outputs    ✓ threat-modeling.html
+             ✓ project-requirements.html
 ```
 
 ## Hard Rules
 
-- Ask the user only once at the start; do not ask for confirmation during the pipeline.
-- Do not move to the next step before the current one is complete.
-- Do not create any files — all analysis stays in the conversation.
+- Print ONLY the timeline lines and the final summary to the conversation. Nothing else.
+- Do not print any analysis, findings, or intermediate results.
+- Do not ask the user for confirmation between steps.
+- The only exception: if `/sec-scope` needs to ask clarifying questions, those questions appear in the conversation. After the user answers, continue silently.
 - Only two artifacts are produced: `threat-modeling.html` and `project-requirements.html`.
-- This is an assessment pipeline — do not make go/no-go decisions, only produce findings and requirements.
-- Use the user's language throughout the entire pipeline.
+- This is an assessment pipeline — do not make go/no-go decisions.

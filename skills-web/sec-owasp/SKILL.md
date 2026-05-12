@@ -8,11 +8,17 @@ description: Produces application security findings using the OWASP Top 10 frame
 ## Purpose
 
 Assess the application against the OWASP Top 10 vulnerabilities.
-Base the analysis on the /sec-scope and /sec-threat-model outputs in the conversation.
+Base the analysis on the /sec-scope and /sec-threat-model outputs held in context.
 
 ## Language Rule
 
 Use the same language the user is writing in for all output.
+
+## Pipeline Mode
+
+When called by `/security-assessment`: do NOT write the analysis to the conversation.
+Hold all findings in context for subsequent steps.
+The orchestrator prints the status line — this skill prints nothing.
 
 ## Execution Instructions
 

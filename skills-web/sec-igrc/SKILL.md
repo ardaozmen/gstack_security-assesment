@@ -8,11 +8,17 @@ description: Identifies internal control gaps and RACI ownership. Maps regulator
 ## Purpose
 
 Identify ownership gaps and missing internal controls for security.
-Base the analysis on the /sec-scope and /sec-regulatory outputs in the conversation.
+Base the analysis on the /sec-scope and /sec-regulatory outputs held in context.
 
 ## Language Rule
 
 Use the same language the user is writing in for all output.
+
+## Pipeline Mode
+
+When called by `/security-assessment`: do NOT write the analysis to the conversation.
+Hold all findings in context for subsequent steps.
+The orchestrator prints the status line — this skill prints nothing.
 
 ## Execution Instructions
 
