@@ -1,6 +1,6 @@
 version: "1.0"
-name: "secops-orchestrator"
-entrypoint: "/sec-autoplan"
+name: "security-assessment"
+entrypoint: "/security-assessment"
 state_files:
   - "AUTO_PLAN_STATUS.md"
   - "PIPELINE_CONTEXT.md"
@@ -27,7 +27,7 @@ step_catalog:
     id: "sec-threat-model"
     command: "/sec-threat-model"
     spec: "../skills/sec-threat-model/SKILL.md"
-    outputs: ["THREAT_MODEL.md"]
+    outputs: ["THREAT_MODEL.md", "threat-modeling.html"]
     gate: "Gate-THREAT"
     depends_on: [1]
   3:
@@ -58,7 +58,7 @@ step_catalog:
     id: "sec-project-requirements"
     command: "/sec-project-requirements"
     spec: "../skills/sec-project-requirements/SKILL.md"
-    outputs: ["PROJECT_REQUIREMENTS.md"]
+    outputs: ["PROJECT_REQUIREMENTS.md", "project-requirements.html"]
     gate: "Gate-REQ"
     depends_on: [2, 3, 4, 5]  # full-mode deps; orchestrator resolves against active steps
   7:

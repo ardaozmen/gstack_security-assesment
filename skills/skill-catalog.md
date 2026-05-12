@@ -14,7 +14,7 @@ Generic schema: `spec-schema.yaml`
 ## /sec-threat-model
 - Role: Threat Modeler
 - Input: `SCOPE.md`
-- Output: `THREAT_MODEL.md`
+- Output: `THREAT_MODEL.md`, `threat-modeling.html`
 - Amaç: STRIDE tehdit matrisi ve attack tree
 - Gate: `Gate-THREAT`
 - Depends on: `/sec-scope`
@@ -46,7 +46,7 @@ Generic schema: `spec-schema.yaml`
 ## /sec-project-requirements
 - Role: Security Requirements Owner
 - Input: `THREAT_MODEL.md`, `OWASP_FINDINGS.md`, `REGULATORY_FINDINGS.md`, `IGRC_FINDINGS.md`
-- Output: `PROJECT_REQUIREMENTS.md`
+- Output: `PROJECT_REQUIREMENTS.md`, `project-requirements.html`
 - Amaç: Tüm bulguları öncelikli güvenlik gereksinimlerine dönüştürmek
 - Gate: `Gate-REQ`
 - Depends on: `/sec-threat-model`, `/sec-owasp`, `/sec-regulatory`, `/sec-igrc`
@@ -59,7 +59,7 @@ Generic schema: `spec-schema.yaml`
 - Gate: `Gate-SIGNOFF`
 - Depends on: `/sec-project-requirements`
 
-## /sec-autoplan
+## /security-assessment
 - Role: Security Orchestrator
 - Input: Mode + opsiyonel onceki ciktilar
 - Output: `AUTO_PLAN_STATUS.md`, `PIPELINE_CONTEXT.md`

@@ -46,9 +46,9 @@
 
 ## Örnekler
 
-- `/sec-autoplan`
-- `/sec-autoplan mode=fast`
-- `/sec-autoplan mode=compliance force_refresh=true`
-- `/sec-autoplan resume`
-- `/sec-autoplan retry_from=sec-owasp`
+- `/security-assessment`
+- `/security-assessment mode=fast`
+- `/security-assessment mode=compliance force_refresh=true`
+- `/security-assessment resume`
+- `/security-assessment retry_from=sec-owasp`
 - `/sec-retro`

@@ -113,6 +113,19 @@ Total : N
   Low      (score 1–5)   : N
 ```
 
+### Phase 7 — Generate threat-modeling.html
+
+Read `docs/word-output-standard.md` to get the full HTML template and CSS standard.
+
+Using the template from `## threat-modeling.html` section:
+1. Replace all placeholders with actual content from `THREAT_MODEL.md` and `SCOPE.md`.
+2. Insert the Shared CSS block inside `<style>` tags in `<head>`.
+3. Apply row classes (`critical`, `high`, `medium`, `low`) based on actual threat severity.
+4. Remove all template comments (`<!-- REPEAT ... -->`, `<!-- INSERT ... -->`).
+5. Write the completed HTML to `threat-modeling.html` using the Write tool.
+
+The file can be opened directly in Microsoft Word via File → Open.
+
 ## Risk Scoring
 
 | Factor | Scale |
@@ -199,7 +212,8 @@ Goal: [...]
 7. Compile severity distribution.
 8. Write `THREAT_MODEL.md` using the template above.
 9. Run Gate-THREAT checks.
-10. Display console summary. Suggest `/sec-owasp` (and `/sec-regulatory` in parallel if running full mode).
+10. Execute Phase 7: read `docs/word-output-standard.md`, generate `threat-modeling.html`.
+11. Display console summary. Suggest `/sec-owasp` (and `/sec-regulatory` in parallel if running full mode).
 
 ## Hard Rules
 
@@ -230,7 +244,8 @@ Attack Trees Built : N
 
 Gate-THREAT : PASS | WARNING | FAIL
 
-Output : THREAT_MODEL.md
+Outputs : THREAT_MODEL.md
+          threat-modeling.html
 
 Next Steps:
   /sec-owasp          (technical findings)

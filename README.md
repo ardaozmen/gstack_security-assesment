@@ -38,20 +38,20 @@ Kurumsal güvenlik değerlendirmelerini standart ve tekrarlanabilir biçimde yü
 - **Manifest:** `pipeline/orchestrator.manifest.yaml`
 - **State Dosyaları:** `AUTO_PLAN_STATUS.md`, `PIPELINE_CONTEXT.md`
 
-Hızlı başlatma: `/sec-autoplan`
+Hızlı başlatma: `/security-assessment`
 
 ## Skills
 
 | Komut | Output | Bağımlılık | Gate |
 |---|---|---|---|
 | `/sec-scope` | `SCOPE.md` | — | Gate-SCOPE |
-| `/sec-threat-model` | `THREAT_MODEL.md` | `/sec-scope` | Gate-THREAT |
+| `/sec-threat-model` | `THREAT_MODEL.md`, `threat-modeling.html` | `/sec-scope` | Gate-THREAT |
 | `/sec-owasp` | `OWASP_FINDINGS.md` | `/sec-scope`, `/sec-threat-model` | Gate-OWASP |
 | `/sec-regulatory` | `REGULATORY_FINDINGS.md` | `/sec-scope` | Gate-REG |
 | `/sec-igrc` | `IGRC_FINDINGS.md`, `RACI_MATRIX.md` | `/sec-scope`, `/sec-regulatory` | Gate-IGRC |
-| `/sec-project-requirements` | `PROJECT_REQUIREMENTS.md` | tüm assessment çıktıları | Gate-REQ |
+| `/sec-project-requirements` | `PROJECT_REQUIREMENTS.md`, `project-requirements.html` | tüm assessment çıktıları | Gate-REQ |
 | `/sec-signoff` | `SIGNOFF_PACKAGE.md` | `/sec-project-requirements` | Gate-SIGNOFF |
-| `/sec-autoplan` | `AUTO_PLAN_STATUS.md`, `PIPELINE_CONTEXT.md` | orkestratör | — |
+| `/security-assessment` | `AUTO_PLAN_STATUS.md`, `PIPELINE_CONTEXT.md` | orkestratör | — |
 | `/sec-retro` *(opsiyonel)* | `RETRO_REPORT.md`, `learnings.md` | pipeline tamamlandı | Gate-RETRO |
 
 Detay: `skills/skill-catalog.md` · Spec şeması: `skills/spec-schema.yaml`
@@ -60,7 +60,7 @@ Detay: `skills/skill-catalog.md` · Spec şeması: `skills/spec-schema.yaml`
 
 | Rol | Sorumlu Skill |
 |---|---|
-| Security Orchestrator | `/sec-autoplan` |
+| Security Orchestrator | `/security-assessment` |
 | Senior Security Analyst | `/sec-scope` |
 | Threat Modeler | `/sec-threat-model` |
 | AppSec Engineer | `/sec-owasp` |

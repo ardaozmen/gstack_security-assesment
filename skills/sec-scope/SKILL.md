@@ -36,18 +36,46 @@ None. This is pipeline Step 1.
 
 ## Execution Phases
 
-### Phase 1 — Project Context
+### Phase 1 — Structured Project Intake
 
-Collect from the user in a single request (do not ask piecemeal):
+Ask all 9 questions below in a single message. Do not proceed to Phase 2 until all answers are clear.
+If any answer is ambiguous or contradictory, ask only the specific follow-up needed — do not restart the whole intake.
 
-| Field | Options |
-|---|---|
-| Project name | free text |
-| Project type | yeni geliştirme / mevcut sisteme entegrasyon / üçüncü taraf ürün |
-| Environment | on-premise / cloud / hybrid |
-| Target audience | iç kullanıcı / kurumsal müşteri / bireysel müşteri / API tüketicisi |
-| Regulated sector | finans (BDDK/SPK) / sağlık / e-ticaret / kamu / diğer |
-| Estimated go-live | date or "belirsiz" |
+```
+Projeyi değerlendirmek için aşağıdaki 9 soruyu yanıtlar mısınız?
+
+1. Bu yeni bir uygulama mı, yoksa mevcut bir sistemin değerlendirmesi mi?
+   (yeni geliştirme / mevcut sistem entegrasyonu / üçüncü taraf ürün)
+
+2. Altyapı yeni mi kuruluyor, yoksa mevcut/paylaşılan altyapı mı kullanılacak?
+   (yeni altyapı / mevcut/paylaşılan altyapı / belirsiz)
+
+3. Sistemi kimler kullanacak?
+   (iç kullanıcılar / kurumsal müşteriler / bireysel/tüketici müşteriler / API tüketicileri / karışık)
+
+4. Sistem internete açık mı olacak?
+   (evet — doğrudan / evet — CDN/WAF arkasında / hayır — yalnızca iç ağ / belirsiz)
+
+5. Hizmet herhangi bir public cloud hizmeti kullanıyor mu?
+   (evet — hangisi: AWS/Azure/GCP/diğer / hayır — on-premise / hibrit / belirsiz)
+
+6. Kullanıcı kimlik doğrulaması gerekiyor mu?
+   (evet — hangi yöntem: SSO/OAuth/LDAP/custom / hayır — herkese açık / belirsiz)
+
+7. Sistemi kim geliştiriyor?
+   (iç ekip / dış/outsource geliştirici / SaaS/hazır ürün / karışık)
+
+8. Üçüncü taraf entegrasyonlar var mı?
+   (evet — lütfen listeleyin: ödeme sistemi / kimlik sağlayıcı / SMS/e-posta / harici API / diğer)
+   (hayır)
+
+9. Sistem gizli veya hassas veri işleyecek mi?
+   (evet — tür: TC kimlik no / finansal kayıtlar / sağlık verisi / kimlik bilgileri / diğer KVK verisi)
+   (hayır — kişisel veri işlenmeyecek)
+```
+
+**Rule**: Do not produce `SCOPE.md` until all 9 questions have a clear, unambiguous answer.
+If the user's response leaves any answer unclear, ask only the specific follow-up question(s) needed before continuing.
 
 ### Phase 2 — Asset Inventory
 
@@ -165,14 +193,16 @@ Gate FAIL → pipeline stops. Generate question list for user. Suggest `/sec-sco
 
 ## Instructions for Claude
 
-1. Ask the user for all Phase 1 fields in one message.
-2. Based on responses, populate Phase 2–4. For any unknown field, insert `[ASSUMPTION-xxx]`.
-3. After drafting, list all MISSING items. If any are BLOCKER, stop and ask the user.
-4. If MISSING count ≥ 3, ask: *"Kritik eksiklere rağmen devam etmeli miyiz? (E/H + gerekçe)"*
-5. Write `SCOPE.md` using the template above.
-6. Run Gate-SCOPE checks.
-7. If gate PASS or WARNING-only: display console summary and suggest `/sec-threat-model`.
-8. If gate FAIL: display what is missing and suggest `/sec-scope --refresh`.
+1. Ask all 9 Phase 1 intake questions in a single message.
+2. Wait for all 9 answers. If any answer is ambiguous, ask only the specific clarifying question — do not restart.
+3. Do not proceed to Phase 2 until all 9 intake questions are clearly answered.
+4. Based on responses, populate Phase 2–4. For any unknown field, insert `[ASSUMPTION-xxx]`.
+5. After drafting, list all MISSING items. If any are BLOCKER, stop and ask the user.
+6. If MISSING count ≥ 3, ask: *"Kritik eksiklere rağmen devam etmeli miyiz? (E/H + gerekçe)"*
+7. Write `SCOPE.md` using the template above.
+8. Run Gate-SCOPE checks.
+9. If gate PASS or WARNING-only: display console summary and suggest `/sec-threat-model`.
+10. If gate FAIL: display what is missing and suggest `/sec-scope --refresh`.
 
 ## Hard Rules
 

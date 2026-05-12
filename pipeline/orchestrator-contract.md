@@ -1,6 +1,6 @@
 # Orchestrator Contract
 
-Bu dokuman `/sec-autoplan` davranis kontratini tanimlar.
+Bu dokuman `/security-assessment` davranis kontratini tanimlar.
 
 ## Sorumluluklar
 

@@ -1,6 +1,6 @@
 # Role Catalog
 
-## Security Orchestrator
+## Security Orchestrator — `/security-assessment`
 - Sira yonetimi, gate kontrolu, context tasima
 - Taste decision noktasinda insana sorar
 

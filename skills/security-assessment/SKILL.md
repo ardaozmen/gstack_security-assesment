@@ -1,10 +1,10 @@
 ---
-name: sec-autoplan
+name: security-assessment
 description: Orchestrate the full security assessment pipeline. Runs all skills in the correct order, enforces quality gates, manages state between steps, and surfaces human decision points. Use to run the complete assessment in one command.
 allowed-tools: Read, Write, Glob, Grep
 ---
 
-# /sec-autoplan — Security Assessment Orchestrator
+# /security-assessment — Security Assessment Orchestrator
 
 ## Purpose
 
@@ -21,7 +21,7 @@ Run the complete security assessment pipeline from a single command. This skill:
 ## Usage
 
 ```
-/sec-autoplan [mode=full|fast|compliance] [resume] [retry_from=<skill-id>] [force_refresh=true]
+/security-assessment [mode=full|fast|compliance] [resume] [retry_from=<skill-id>] [force_refresh=true]
 ```
 
 **Arguments**:
@@ -32,7 +32,7 @@ Run the complete security assessment pipeline from a single command. This skill:
 - `retry_from=<skill-id>`: Re-run from a specific skill (e.g. `retry_from=sec-owasp`)
 - `force_refresh=true`: Ignore existing output files and regenerate all steps
 
-**Triggers**: "sec autoplan", "pipeline'ı başlat", "tam güvenlik değerlendirmesi yap", "tüm adımları çalıştır", "/sec-autoplan"
+**Triggers**: "security assessment", "pipeline'ı başlat", "tam güvenlik değerlendirmesi yap", "tüm adımları çalıştır", "/security-assessment"
 
 ## Prerequisites
 
@@ -157,7 +157,7 @@ Required Actions:
   2. [specific question or fix]
 
 Resume command:
-  /sec-autoplan resume
+  /security-assessment resume
 ```
 
 On WARNING: log, notify, continue.
@@ -183,7 +183,7 @@ Record the answer. Resume.
 On completion, write `AUTO_PLAN_STATUS.md`:
 
 ```markdown
-# SecOps AutoPlan — Final Status
+# Security Assessment — Final Status
 
 **Mode**: [full|fast|compliance]
 **Date**: [ISO date]
@@ -215,6 +215,8 @@ On completion, write `AUTO_PLAN_STATUS.md`:
 - IGRC_FINDINGS.md
 - RACI_MATRIX.md
 - PROJECT_REQUIREMENTS.md
+- project-requirements.html
+- threat-modeling.html
 - SIGNOFF_PACKAGE.md
 - AUTO_PLAN_STATUS.md
 - PIPELINE_CONTEXT.md
@@ -231,12 +233,12 @@ On completion, write `AUTO_PLAN_STATUS.md`:
 
 | Command | Behavior |
 |---|---|
-| `/sec-autoplan` | Full pipeline, all steps |
-| `/sec-autoplan resume` | Continue from last FAIL in `AUTO_PLAN_STATUS.md` |
-| `/sec-autoplan mode=fast` | Fast mode |
-| `/sec-autoplan mode=compliance` | Compliance mode |
-| `/sec-autoplan force_refresh=true` | Regenerate all outputs |
-| `/sec-autoplan retry_from=sec-owasp` | Re-run from `/sec-owasp` onward |
+| `/security-assessment` | Full pipeline, all steps |
+| `/security-assessment resume` | Continue from last FAIL in `AUTO_PLAN_STATUS.md` |
+| `/security-assessment mode=fast` | Fast mode |
+| `/security-assessment mode=compliance` | Compliance mode |
+| `/security-assessment force_refresh=true` | Regenerate all outputs |
+| `/security-assessment retry_from=sec-owasp` | Re-run from `/sec-owasp` onward |
 
 ## Quality Gate — Orchestrator State
 
@@ -288,6 +290,8 @@ Output Files:
   IGRC_FINDINGS.md
   RACI_MATRIX.md
   PROJECT_REQUIREMENTS.md
+  project-requirements.html
+  threat-modeling.html
   SIGNOFF_PACKAGE.md
   AUTO_PLAN_STATUS.md
   PIPELINE_CONTEXT.md

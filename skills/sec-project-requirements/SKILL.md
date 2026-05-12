@@ -150,6 +150,20 @@ For each assessment that did not run (missing input files), state:
 - What additional findings might exist
 - Recommendation: run missing skills before go-live if posture is RED
 
+### Phase 7 — Generate project-requirements.html
+
+Read `docs/word-output-standard.md` to get the full HTML template and CSS standard.
+
+Using the template from `## project-requirements.html` section:
+1. Replace all placeholders with actual content from `PROJECT_REQUIREMENTS.md`.
+2. Insert the Shared CSS block inside `<style>` tags in `<head>`.
+3. Apply row classes (`p0`, `p1`, `p2`) based on actual requirement priority.
+4. Apply `posture-red`, `posture-amber`, or `posture-green` class based on security posture result.
+5. Remove all template comments (`<!-- REPEAT ... -->`, `<!-- INSERT ... -->`).
+6. Write the completed HTML to `project-requirements.html` using the Write tool.
+
+The file can be opened directly in Microsoft Word via File → Open.
+
 ## Quality Gate — Gate-REQ
 
 | Check | Required |
@@ -259,7 +273,9 @@ CRITICAL: 20–25 | HIGH: 12–19 | MEDIUM: 6–11 | LOW: 1–5
 7. If P0 list is empty: ask *"Blocker olmadan go-live uygundur, onaylıyor musun?"*
 8. Write executive summary for a non-technical reader.
 9. Write `PROJECT_REQUIREMENTS.md` using the template.
-10. Run Gate-REQ checks. Display console summary.
+10. Run Gate-REQ checks.
+11. Execute Phase 7: read `docs/word-output-standard.md`, generate `project-requirements.html`.
+12. Display console summary.
 
 ## Hard Rules
 
@@ -291,7 +307,8 @@ Security Posture : 🔴 RED | 🟡 AMBER | 🟢 GREEN
 
 Gate-REQ : PASS | WARNING | FAIL
 
-Output : PROJECT_REQUIREMENTS.md
+Outputs : PROJECT_REQUIREMENTS.md
+          project-requirements.html
 
 Next Step:
   /sec-signoff    (go-live decision package)
