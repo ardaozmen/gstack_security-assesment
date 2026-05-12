@@ -1,3 +1,8 @@
+---
+name: word-output-standard
+description: HTML templates and shared CSS for generating threat-modeling.html and project-requirements.html artifacts. Referenced by sec-threat-model and sec-project-requirements when producing Word-compatible output documents.
+---
+
 # Word Output Standard — Claude Web
 
 The LLM produces the HTML templates below **as artifacts**.
